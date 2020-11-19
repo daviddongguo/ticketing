@@ -4,6 +4,11 @@ import express from 'express';
 const app = express();
 app.use(json());
 
-app.listen(3000, ()=>{
-  console.log('Auth server is listening on port 3000!');
+app.get('/api/users/test', (req, res)=>{
+  console.log('/api/users/test received.')
+  res.status(200).json({message: 'Hi, there!'});
+});
+
+app.listen(3018, ()=>{
+  console.log('Auth server is listening on port 3018...');
 });
