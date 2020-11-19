@@ -4,7 +4,7 @@ import express from 'express';
 const app = express();
 app.use(json());
 
-app.get('/test', (req, res)=>{
+app.get('/api/users/test', (req, res)=>{
   console.log(req.url);
   console.log(req.route);
   res.status(200).json({message: 'Hi, there!'});
