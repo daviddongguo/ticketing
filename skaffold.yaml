@@ -5,10 +5,12 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  local:
-    push: false
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: fit-reference-296121
   artifacts:
-    - image: davidmontreal/auth
+    - image: us.gcr.io/fit-reference-296121/auth
       context: auth
       docker:
         dockerfile: Dockerfile
