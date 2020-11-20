@@ -10,7 +10,7 @@ build:
   googleCloudBuild:
     projectId: fit-reference-296121
   artifacts:
-    - image: us.gcr.io/fit-reference-296121/auth
+    - image: gcr.io/fit-reference-296121/auth
       context: auth
       docker:
         dockerfile: Dockerfile
