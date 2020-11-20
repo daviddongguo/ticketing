@@ -1,16 +1,28 @@
-
-import express from 'express';
+import express, {Request, Response} from 'express';
+import {body, validationResult} from 'express-validator';
 
 const router = express.Router();
 
-router.get('/api/users/signup', (req, res) => {
-  console.log(`${req.baseUrl}`);
-  console.log(`${req.url}`);
+router.post(
+	'/api/users/signup',
+	[
+		body('email').isEmail().normalizeEmail().withMessage('Email must be valid'),
+		body('password').not().isEmpty().trim().isLength({min: 3}).withMessage('Password must have at least 3 characters'),
+	],
+	(req: Request, res: Response) => {
+		console.log(`${req.baseUrl}${req.url}`);
 
-  const { email, password} = req.body;
+		const errors = validationResult(req);
 
-	res.status(200).json({message: `${req.url}`});
-});
+		if (!errors.isEmpty) {
+			return res.status(404).send(errors.array());
+		}
+
+		const {email, password} = req.body;
+
+		res.status(201).json({email: email});
+	}
+);
 
 export {router as signupRouter};
 
