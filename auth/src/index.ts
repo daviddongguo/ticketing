@@ -1,16 +1,22 @@
 import {json} from 'body-parser';
 import express from 'express';
 import {currentUserRouter} from './routers/current-user';
+import {signinRouter} from './routers/signin';
+import {signoutRouter} from './routers/signout';
+import {signupRouter} from './routers/signup';
 
 const app = express();
 app.use(json());
 
 app.use(currentUserRouter);
+app.use(signinRouter);
+app.use(signupRouter);
+app.use(signoutRouter);
 
 app.get('/api/users/test', (req, res)=>{
   console.log(req.url);
   // console.log(req.route);
-  res.status(200).json({message: 'Hi, there!', url: `{req.url}`});
+  res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
 app.listen(3018, ()=>{
