@@ -3,7 +3,7 @@ import {CustomError} from './custom-error';
 
 export class RequestValidationError extends CustomError {
 	constructor(public errors: ValidationError[]) {
-		super();
+		super('Invalidate Inputs');
 		// Only because we are extending a built in class
 		Object.setPrototypeOf(this, RequestValidationError.prototype);
 	}

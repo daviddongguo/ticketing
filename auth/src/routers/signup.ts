@@ -28,7 +28,7 @@ router.post(
 		// 2 check to see if email is already in use
 
 		// 3 Try to create new User
-		throw new DatabaseConnectionError();
+		throw new DatabaseConnectionError("Opps!");
 	}
 );
 
