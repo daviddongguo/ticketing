@@ -16,7 +16,7 @@ router.post(
 			.isLength({min: 3})
 			.withMessage('Password must have at least 3 characters'),
 	],
-	(req: Request, res: Response) => {
+	async(req: Request, res: Response) => {
 		// 1 check the email and password format
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
