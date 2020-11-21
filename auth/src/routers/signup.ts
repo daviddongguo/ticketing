@@ -28,12 +28,7 @@ router.post(
 		// 2 check to see if email is already in use
 
 		// 3 Try to create new User
-		try {
-			throw new DatabaseConnectionError();
-		} catch (error) {
-			// res.status(500).send('Something broke!');
-			res.status(201).json({email: email});
-		}
+		throw new DatabaseConnectionError();
 	}
 );
 
