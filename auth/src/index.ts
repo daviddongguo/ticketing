@@ -11,7 +11,7 @@ import {signupRouter} from './routers/signup';
 const app = express();
 app.use(json());
 
-app.get('/api/users/test', (req, res) => {
+app.get('/api/users/test', async(req, res) => {
 	console.log(req.url);
 	// console.log(req.route);
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
