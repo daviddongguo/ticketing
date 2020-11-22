@@ -1,4 +1,5 @@
 import {json} from 'body-parser';
+import cookieSession from 'cookie-session';
 import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
@@ -11,7 +12,15 @@ import {signoutRouter} from './routers/signout';
 import {signupRouter} from './routers/signup';
 const mongoDbString = require('../configs/mongoDb');
 const app = express();
+// traffic is being proximate to our application through ingress engine express
+app.set('trust proxy', true);
 app.use(json());
+app.use(
+	cookieSession({
+		signed: false,
+		secure: true,
+	})
+);
 
 app.use(logger('dev')); //log every request to the CONSOLE.
 
