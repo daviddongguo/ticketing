@@ -22,16 +22,17 @@ router.post(
 		// 1 check the email and password format
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			console.error(errors.array());
 			throw new RequestValidationError(errors.array());
 		}
 
 		const {email, password} = req.body;
 		// 2 check to see if email is already in use
-		const existingUser = await User.findOne({email});
-		if (existingUser) {
-			throw new BadRequestError('Email', 'Email in use.');
-		}
+
+			const existingUser = await User.findOne({email});
+			if (existingUser) {
+				throw new BadRequestError('Email', 'Email in use.');
+			}
+
 		// 3 Try to create new User
 		// Use the hash password
 		try {
@@ -41,7 +42,6 @@ router.post(
 			// Send he a cookie / jwt
 			res.status(201).send(user);
 		} catch (error) {
-			console.log(error);
 			throw new DatabaseConnectionError();
 		}
 	}
