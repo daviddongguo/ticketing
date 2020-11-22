@@ -27,14 +27,17 @@ router.post(
 
 		const {email, password} = req.body;
 		// 2 check to see if email is already in use
-
-			const existingUser = await User.findOne({email});
-			if (existingUser) {
-				throw new BadRequestError('Email', 'Email in use.');
-			}
+		let existingUser;
+		try {
+			existingUser = await User.findOne({email}).maxTimeMS(2000);
+		} catch (error) {
+			throw new DatabaseConnectionError();
+		}
+		if (existingUser) {
+			throw new BadRequestError('Email', 'Email in use.');
+		}
 
 		// 3 Try to create new User
-		// Use the hash password
 		try {
 			const user = User.build({email, password});
 			await user.save();
