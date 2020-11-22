@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express';
 import {body, validationResult} from 'express-validator';
+import jwt from 'jsonwebtoken';
 import {BadRequestError} from '../errors/bad-request-error';
 import {DatabaseConnectionError} from '../errors/database-connection-error';
 import {RequestValidationError} from '../errors/request-validation-error';
@@ -42,8 +43,18 @@ router.post(
 			const user = User.build({email, password});
 			await user.save();
 			// user is now considered to be logged in.
-			// Send he a cookie / jwt
-			res.status(201).send(user);
+
+			// Generate JWT and Store it on session object
+			const accessToken = jwt.sign(
+				{
+					id: user._id,
+					email: user.email,
+				},
+				'abc'
+			);
+			req.session = {jwt: accessToken};
+
+			res.status(201).send({accessToken});
 		} catch (error) {
 			throw new DatabaseConnectionError();
 		}
