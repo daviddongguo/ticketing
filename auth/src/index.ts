@@ -9,7 +9,7 @@ import {currentUserRouter} from './routers/current-user';
 import {signinRouter} from './routers/signin';
 import {signoutRouter} from './routers/signout';
 import {signupRouter} from './routers/signup';
-
+const mongoDbString = require('../configs/mongoDb');
 const app = express();
 app.use(json());
 
@@ -32,12 +32,17 @@ app.use(errorHandler);
 
 const start = async () => {
 	try {
-		await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
+		let connectionString = mongoDbString.googleDb;
+		if (process.env.NODE_ENV === 'local') {
+			connectionString = mongoDbString.localDb;
+		}
+
+		await mongoose.connect(connectionString, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true,
-    });
-    console.log("Connected to MongoDb.")
+		});
+		console.log('Connected to MongoDb by ' + `${connectionString}`);
 	} catch (error) {
 		console.error(error);
 	}
