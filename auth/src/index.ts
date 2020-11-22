@@ -2,6 +2,7 @@ import {json} from 'body-parser';
 import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
+import logger from 'morgan'; //Note logger = morgan~!
 import {NotFoundError} from './errors/not-found-error';
 import {errorHandler} from './middlewares/error-handler';
 import {currentUserRouter} from './routers/current-user';
@@ -12,9 +13,9 @@ import {signupRouter} from './routers/signup';
 const app = express();
 app.use(json());
 
+app.use(logger('dev')); //log every request to the CONSOLE.
+
 app.get('/api/users/test', async (req, res) => {
-	console.log(req.url);
-	// console.log(req.route);
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
