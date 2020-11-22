@@ -11,6 +11,6 @@ export const errorHandler = (
 		res.status(err.statusCode).send({errors: err.serializeErrors()});
 	} else {
 		console.log(err.message);
-		res.status(400).send({errors: [{message: 'Something broke!'}]});
+		res.status(400).send({errors: [{message: err.message || 'Something broke!'}]});
 	}
 };

@@ -11,7 +11,7 @@ export class RequestValidationError extends CustomError {
 	statusCode = 400;
 	serializeErrors() {
 		return this.errors.map((error) => {
-			return {message: error.msg, file: error.param};
+			return {message: error.msg, field: error.param};
 		});
 	}
 }
