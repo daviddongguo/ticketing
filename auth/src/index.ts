@@ -7,7 +7,6 @@ const start = async () => {
   if(process.env.NODE_ENV === 'local'){
     process.env.JWT_KEY = "local-jwt-key";
   }
-
   if(!process.env.JWT_KEY){
     throw new Error('JWT_KEY must be defined.')
   }
