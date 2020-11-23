@@ -1,10 +1,10 @@
 import express, {Request, Response} from 'express';
-import {body, validationResult} from 'express-validator';
-import jwt from 'jsonwebtoken';
+import {body} from 'express-validator';
 import {BadRequestError} from '../errors/bad-request-error';
 import {DatabaseConnectionError} from '../errors/database-connection-error';
-import {RequestValidationError} from '../errors/request-validation-error';
+import {validateRequest} from '../middlewares/validate-request';
 import {User} from '../models/user';
+import {generateToken} from '../services/token';
 
 const router = express.Router();
 
@@ -18,19 +18,16 @@ router.post(
 			.trim()
 			.isLength({min: 3})
 			.withMessage('Password must have at least 3 characters'),
-	],
+  ],
+  validateRequest,
 	async (req: Request, res: Response) => {
 		// 1 check the email and password format
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			throw new RequestValidationError(errors.array());
-		}
 
-		const {email, password} = req.body;
 		// 2 check to see if email is already in use
+		const {email, password} = req.body;
 		let existingUser;
 		try {
-			existingUser = await User.findOne({email}).maxTimeMS(2000);
+			existingUser = await User.findOne({email}).maxTimeMS(2000).exec();
 		} catch (error) {
 			throw new DatabaseConnectionError();
 		}
@@ -40,22 +37,15 @@ router.post(
 
 		// 3 Try to create new User
 		try {
-			const user = User.build({email, password});
-			await user.save();
+			const newUser = User.build({email, password});
+			await newUser.save();
 			// user is now considered to be logged in.
+			// Generate JWT and Store it on session object
+    const accessToken = generateToken(newUser);
 
-      // Generate JWT and Store it on session object
-
-			const accessToken = jwt.sign(
-				{
-					id: user.id,
-					email: user.email,
-				},
-				process.env.JWT_KEY!
-			);
 			req.session = {jwt: accessToken};
 
-			res.status(201).send({accessToken, user});
+			res.status(201).send({accessToken, user: newUser});
 		} catch (error) {
 			throw new DatabaseConnectionError();
 		}
