@@ -11,15 +11,21 @@ const router = express.Router();
 router.post(
 	'/api/users/signup',
 	[
-		body('email').isEmail().normalizeEmail().withMessage('Email must be valid'),
+		body('email')
+			.not()
+			.isEmpty()
+			.trim()
+			.isEmail()
+			.normalizeEmail()
+			.withMessage('Email must be valid'),
 		body('password')
 			.not()
 			.isEmpty()
 			.trim()
 			.isLength({min: 3})
 			.withMessage('Password must have at least 3 characters'),
-  ],
-  validateRequest,
+	],
+	validateRequest,
 	async (req: Request, res: Response) => {
 		// 1 check the email and password format
 
@@ -41,7 +47,7 @@ router.post(
 			await newUser.save();
 			// user is now considered to be logged in.
 			// Generate JWT and Store it on session object
-    const accessToken = generateToken(newUser);
+			const accessToken = generateToken(newUser);
 
 			req.session = {jwt: accessToken};
 
