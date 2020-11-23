@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import {UserDoc} from '../models/user';
 
+
 const generateToken = (user: UserDoc) => {
 	return jwt.sign(
 		{
@@ -18,7 +19,7 @@ const verifyToken = (token: string) => {
   }
 
 	try {
-    return jwt.verify(token, process.env.JWT_KEY!);
+    return jwt.verify(token, process.env.JWT_KEY!) as UserDoc;
 	} catch (error) {
     console.error('token is not valid!');
 		return null;

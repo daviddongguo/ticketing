@@ -1,10 +1,10 @@
 import express from 'express';
-import {verifyToken} from '../services/token';
+import {currentUser} from '../middlewares/current-user';
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', (req, res) => {
-	return res.status(200).json({currentuser: verifyToken(req.session?.jwt)});
+router.get('/api/users/currentuser', currentUser, (req, res) => {
+	return res.status(200).send({currentUser: req.currentUser});
 });
 
 export {router as currentUserRouter};
