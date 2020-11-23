@@ -1,7 +1,7 @@
 import request from 'supertest';
 import {app} from '../../app';
 
-it('returns a 201 on successful signup', async () => {
+it('returns 201 on successful signup', async () => {
 	await request(app)
 		.post('/api/users/signup')
 		.send({
@@ -19,7 +19,7 @@ it('sets a cookie after successful signup', async () => {
     });
   expect(response.get('Set-Cookie')).toBeDefined();
 });
-it('returns a 400, disallows duplicate emails', async () => {
+it('returns 400, disallows duplicate emails', async () => {
 	await request(app).post('/api/users/signup').send({
 		email: 'test@test.com',
 		password: 'test',
@@ -32,7 +32,7 @@ it('returns a 400, disallows duplicate emails', async () => {
 		})
 		.expect(400);
 });
-it('returns a 400 with an invalid email', async () => {
+it('returns 400 with an invalid email', async () => {
 	await request(app)
 		.post('/api/users/signup')
 		.send({
@@ -41,7 +41,7 @@ it('returns a 400 with an invalid email', async () => {
 		})
 		.expect(400);
 });
-it('returns a 400 with an invalid password', async () => {
+it('returns 400 with an invalid password', async () => {
 	await request(app)
 		.post('/api/users/signup')
 		.send({
@@ -50,8 +50,7 @@ it('returns a 400 with an invalid password', async () => {
 		})
 		.expect(400);
 });
-
-it('returns a 400 with missing email and password', async () => {
+it('returns 400 with missing email and password', async () => {
 	await request(app)
 		.post('/api/users/signup')
 		.send({
