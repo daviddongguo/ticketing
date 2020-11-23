@@ -24,13 +24,13 @@ router.post(
 		const {email, password} = req.body;
 		const dbUser = await User.findOne({email}).exec();
 		if (!dbUser) {
-			throw new BadRequestError('', 'Invalid credentials.');
+			throw new BadRequestError('Invalid credentials.');
 		}
 
 		// 3. verify the password
 		const passwordMatch = await Password.compare(dbUser.password, password);
 		if (!passwordMatch) {
-			throw new BadRequestError('', 'Invalid credentials.');
+			throw new BadRequestError('Invalid credentials.');
 		}
 
 		// 4. user is considered to be logged in.

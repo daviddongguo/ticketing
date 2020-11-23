@@ -32,7 +32,7 @@ router.post(
 			throw new DatabaseConnectionError();
 		}
 		if (existingUser) {
-			throw new BadRequestError('Email', 'Email in use.');
+			throw new BadRequestError('Email in use.', 'Email');
 		}
 
 		// 3 Try to create new User
