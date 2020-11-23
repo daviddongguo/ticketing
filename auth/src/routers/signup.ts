@@ -44,13 +44,14 @@ router.post(
 			await user.save();
 			// user is now considered to be logged in.
 
-			// Generate JWT and Store it on session object
+      // Generate JWT and Store it on session object
+
 			const accessToken = jwt.sign(
 				{
 					id: user._id,
 					email: user.email,
 				},
-				'abc'
+				process.env.JWT_KEY!
 			);
 			req.session = {jwt: accessToken};
 

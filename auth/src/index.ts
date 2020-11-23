@@ -18,7 +18,9 @@ app.use(json());
 app.use(
 	cookieSession({
 		signed: false,
-		secure: true,
+    secure: true,
+    name: 'session',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
 	})
 );
 
@@ -40,6 +42,14 @@ app.all('*', async (req, res) => {
 app.use(errorHandler);
 
 const start = async () => {
+  if(process.env.NODE_ENV === 'local'){
+    process.env.JWT_KEY = "local-jwt-key";
+  }
+
+  if(!process.env.JWT_KEY){
+    throw new Error('JWT_KEY must be defined.')
+  }
+
 	try {
 		let connectionString = mongoDbString.googleDb;
 		if (process.env.NODE_ENV === 'local') {
