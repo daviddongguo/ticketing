@@ -48,14 +48,14 @@ router.post(
 
 			const accessToken = jwt.sign(
 				{
-					id: user._id,
+					id: user.id,
 					email: user.email,
 				},
 				process.env.JWT_KEY!
 			);
 			req.session = {jwt: accessToken};
 
-			res.status(201).send({accessToken});
+			res.status(201).send({accessToken, user});
 		} catch (error) {
 			throw new DatabaseConnectionError();
 		}
