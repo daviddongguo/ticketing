@@ -1,22 +1,18 @@
 import request from 'supertest';
 import {app} from '../../app';
 
+const email = 'test@email.com';
+const password = 'test';
 beforeEach(async () => {
-	await request(app)
-		.post('/api/users/signup')
-		.send({
-			email: 'test@email.com',
-			password: 'test',
-		})
-		.expect(201);
+  await global.signup(email);
 });
 
 it('clears the cookie after signing out', async () => {
 	await request(app)
 		.post('/api/users/signin')
 		.send({
-			email: 'test@email.com',
-			password: 'test',
+			email,
+			password,
 		})
 		.expect(200);
 	const response = await request(app).post('/api/users/signout').expect(200);

@@ -3,15 +3,7 @@ import {app} from '../../app';
 
 it('responds with details about the current user', async () => {
   const emailStr = 'test@email.com';
-	const authResponse = await request(app)
-		.post('/api/users/signup')
-		.send({
-			email: emailStr,
-			password: 'test',
-		})
-		.expect(201);
-
-	const cookie = authResponse.get('Set-Cookie');
+	const cookie = await global.signup(emailStr);
 
 	const response = await request(app)
 		.get('/api/users/currentuser')
