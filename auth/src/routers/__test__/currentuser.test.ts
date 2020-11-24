@@ -7,8 +7,18 @@ it('responds with details about the current user', async () => {
 
 	const response = await request(app)
 		.get('/api/users/currentuser')
-		.set('Cookie', cookie)
+    .set('Cookie', cookie)
+    .send()
 		.expect(200);
   console.table(response.body);
   expect(response.body.currentUser.email).toEqual(emailStr);
+});
+it('responds with null if not authenticated', async () => {
+
+	const response = await request(app)
+    .get('/api/users/currentuser')
+    .send()
+		.expect(200);
+  console.table(response.body);
+  expect(response.body.currentUser).toEqual(null);
 });
