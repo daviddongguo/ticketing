@@ -14,14 +14,14 @@ const generateToken = (user: UserDoc) => {
 
 const verifyToken = (token: string) => {
   if(!token){
-    console.error('token is not provided!');
+    console.log('token is not provided!');
     return null;
   }
 
 	try {
     return jwt.verify(token, process.env.JWT_KEY!) as UserDoc;
 	} catch (error) {
-    console.error('token is not valid!');
+    console.log('token is not valid!');
 		return null;
 	}
 };
