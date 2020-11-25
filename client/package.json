@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "next",
-		"dev:local": "cross-env REACT_ENV=local next"
+		"dev:local": "cross-env SERVER_URL=http://localhost:3018 next"
 	},
 	"dependencies": {
 		"axios": "^0.21.0",

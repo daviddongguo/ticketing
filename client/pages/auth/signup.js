@@ -1,16 +1,12 @@
 import axios from 'axios';
 import {useState} from 'react';
-import SERVER_URL from '../../config';
 const signup = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
-		console.log('env: ' + process.env.REACT_ENV);
-		console.log(SERVER_URL);
-
-		const url = SERVER_URL + '/api/users/signup';
+		const url = process.env.baseUrl + '/api/users/signup';
 		console.log(url);
 		try {
 			const response = await axios.post(url, {
