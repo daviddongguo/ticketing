@@ -4,6 +4,7 @@
     "scrypt",
     "signin",
     "signout",
-    "signup"
+    "signup",
+    "ticketingclient"
   ]
 }

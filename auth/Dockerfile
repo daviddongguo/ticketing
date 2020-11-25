@@ -3,8 +3,10 @@ ENV CI=true
 WORKDIR /app
 
 COPY package.json .
+COPY yarn.lock .
 
-RUN yarn install --only=prod
+#RUN yarn install --only=prod
+RUN yarn install
 
 COPY . .
 
