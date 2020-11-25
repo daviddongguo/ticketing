@@ -4,9 +4,11 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"dev": "next"
+		"dev": "next",
+		"dev:local": "cross-env REACT_ENV=local next"
 	},
 	"dependencies": {
+		"axios": "^0.21.0",
 		"bootstrap": "^4.5.3",
 		"next": "^10.0.2",
 		"react": "^17.0.1",

@@ -1,5 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default ({Component, pageProps}) => {
+const cssRelated = ({Component, pageProps}) => {
 	return <Component {...pageProps} />;
 };
+
+export default cssRelated;

@@ -1,5 +1,6 @@
 import {json} from 'body-parser';
 import cookieSession from 'cookie-session';
+import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import logger from 'morgan'; //Note logger = morgan~!
@@ -10,6 +11,7 @@ import {signinRouter} from './routers/signin';
 import {signoutRouter} from './routers/signout';
 import {signupRouter} from './routers/signup';
 const app = express();
+app.use(cors({credentials: true, origin: true}));
 // traffic is being proximate to our application through ingress engine express
 app.set('trust proxy', true);
 app.use(json());
