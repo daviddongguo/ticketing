@@ -4,7 +4,7 @@ import useRequest from '../../hooks/use-request';
 const signup = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {doRequest, errors} = useRequest({
+	const {doRequest, errorsComponent} = useRequest({
 		url: '/api/users/signup',
 		method: 'post',
 		body: {
@@ -34,7 +34,7 @@ const signup = () => {
 					onChange={(e) => setPassword(e.target.value)}
 					className='form-control'
 				/>
-				{errors}
+				{errorsComponent}
 				<button className='btn btn-primary'>Sign Up</button>
 			</div>
 		</form>
