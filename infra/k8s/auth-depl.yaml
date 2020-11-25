@@ -17,7 +17,6 @@ spec:
           image: gcr.io/fit-reference-296121/auth
           #image: davidmontreal/auth
           #imagePullPolicy: Always
-          command: [ "echo", "SUCCESS" ]
           env:
             - name: JWT_KEY
               valueFrom:
