@@ -30,7 +30,6 @@ app.get('/api/users/test', async (req, res) => {
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
-// app.all("*", cors());
 app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signupRouter);

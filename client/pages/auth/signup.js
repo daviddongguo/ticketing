@@ -12,16 +12,15 @@ const signup = () => {
 
 		const url = SERVER_URL + '/api/users/signup';
 		console.log(url);
-		const response = await axios.post(
-			url,
-			{
+		try {
+			const response = await axios.post(url, {
 				email,
 				password,
-			},
-			{headers: {'Access-Control-Allow-Origin': '*'}}
-		);
-
-		console.log(response.data);
+			});
+			console.log(response.body);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
