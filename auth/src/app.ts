@@ -11,16 +11,16 @@ import {signinRouter} from './routers/signin';
 import {signoutRouter} from './routers/signout';
 import {signupRouter} from './routers/signup';
 const app = express();
-app.use(cors({credentials: true, origin: true}));
+app.use(cors());
 // traffic is being proximate to our application through ingress engine express
-app.set('trust proxy', true);
+app.set('trust proxy', true); //  the X-Forwarded-* header fields may be trusted
 app.use(json());
 app.use(
 	cookieSession({
 		signed: false,
-    secure: (process.env.NODE_ENV !== 'test') && (process.env.NODE_ENV !== 'local'),
-    name: 'session',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+		secure: process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'local',
+		name: 'session',
+		maxAge: 24 * 60 * 60 * 1000, // 24 hours
 	})
 );
 
@@ -30,6 +30,7 @@ app.get('/api/users/test', async (req, res) => {
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
+// app.all("*", cors());
 app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signupRouter);
@@ -40,7 +41,6 @@ app.all('*', async (req, res) => {
 });
 
 app.use(errorHandler);
-
 
 export {app};
 
