@@ -12,15 +12,11 @@ router.post(
 	'/api/users/signup',
 	[
 		body('email')
-			.not()
-			.isEmpty()
 			.trim()
 			.isEmail()
 			.normalizeEmail()
 			.withMessage('Email must be valid'),
 		body('password')
-			.not()
-			.isEmpty()
 			.trim()
 			.isLength({min: 3})
 			.withMessage('Password must be at least 3 characters'),
