@@ -11,7 +11,7 @@ import {signinRouter} from './routers/signin';
 import {signoutRouter} from './routers/signout';
 import {signupRouter} from './routers/signup';
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true }));
 // traffic is being proximate to our application through ingress engine express
 app.set('trust proxy', true); //  the X-Forwarded-* header fields may be trusted
 app.use(json());
