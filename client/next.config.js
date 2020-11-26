@@ -4,6 +4,6 @@ module.exports = {
 		return config;
 	},
 	env: {
-		serverBaseUrl: process.env.SERVER_URL || '',
+		serverBaseUrl: process.env.SERVER_URL || 'http://ticketing.dev',
 	},
 };
