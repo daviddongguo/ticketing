@@ -20,9 +20,12 @@ const useRequest = ({url, method, body, onSuccess}) => {
 				<div className='alert alert-danger'>
 					<h4>Oops...</h4>
 					<ul className='my-0'>
+						if(error.response.data.errors)
 						{error.response.data.errors.map((err) => (
 							<li key={err.message}>{err.message}</li>
 						))}
+						else
+						{<li>Something broke!</li>}
 					</ul>
 				</div>
 			);
