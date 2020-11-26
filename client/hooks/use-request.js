@@ -16,16 +16,26 @@ const useRequest = ({url, method, body, onSuccess}) => {
 			}
 			return response.data;
 		} catch (error) {
+			let list = [];
+			if (error.response) {
+				error.response.data.errors.map((err) => {
+					list.push(err.message);
+				});
+			} else {
+				if (error.message) {
+					list.push(error.message);
+				} else {
+					list.push('Something broke!');
+				}
+			}
+
 			setErrorsComponent(
 				<div className='alert alert-danger'>
 					<h4>Oops...</h4>
 					<ul className='my-0'>
-						if(error.response.data.errors)
-						{error.response.data.errors.map((err) => (
-							<li key={err.message}>{err.message}</li>
-						))}
-						else
-						{<li>Something broke!</li>}
+						{list.map((err) => {
+							return <li key={err}>{err}</li>;
+						})}
 					</ul>
 				</div>
 			);
