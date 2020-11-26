@@ -1,3 +1,6 @@
+import Router from 'next/router';
+import {useEffect} from 'react';
+import useReQuest from '../../hooks/use-request';
 const SignOut = () => {
 	const {doRequest} = useReQuest({
 		url: '/api/users/currentuser',
