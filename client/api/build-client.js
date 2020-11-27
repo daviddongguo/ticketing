@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const buildClient = ({req}) => {
+const buildClient = (context) => {
 	if (typeof window === 'undefined') {
 		// we are on the server!
 		// const isServer = !!req
@@ -11,7 +11,7 @@ const buildClient = ({req}) => {
 				process.env.serverBaseUrl !== ''
 					? process.env.serverBaseUrl
 					: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
-			headers: req.headers,
+			headers: context.req.headers,
 		});
 	} else {
 		// we are on the browser!
