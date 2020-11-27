@@ -1,11 +1,10 @@
+import {errorHandler, NotFoundError} from '@davidgarden/common';
 import {json} from 'body-parser';
 import cookieSession from 'cookie-session';
 import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import logger from 'morgan'; //Note logger = morgan~!
-import {NotFoundError} from './errors/not-found-error';
-import {errorHandler} from './middlewares/error-handler';
 import {currentUserRouter} from './routers/current-user';
 import {signinRouter} from './routers/signin';
 import {signoutRouter} from './routers/signout';

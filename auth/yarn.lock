@@ -279,6 +279,18 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@davidgarden/common@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.4.tgz#99febfd63abfa95bcae368264b57917e4d33effe"
+  integrity sha512-sMPDex/Wi1hvxflI65tS8SF49pBgKpIonqUlqtvlQruT1k75+3/UY4rg6P5SEIRCfnbG7n8pwjyuaPw+3xAG6w==
+  dependencies:
+    "@types/cookie-session" "^2.0.41"
+    "@types/jsonwebtoken" "^8.5.0"
+    cookie-session "^1.4.0"
+    express "^4.17.1"
+    express-validator "^6.7.0"
+    jsonwebtoken "^8.5.1"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -1744,6 +1756,14 @@ express-validator@^6.6.1:
     lodash "^4.17.19"
     validator "^13.1.1"
 
+express-validator@^6.7.0:
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.7.0.tgz#ca315efcc9dfe8d00cbc300f2d0fad1df82d07d6"
+  integrity sha512-sLnTFlyKEvesC2Fyn1TY4Q05cWCZHQQ1ijQOVbBG7hFeTKt4CNzttoF4t6CqrYroKa+2DOzj0E09odPIYDTbRg==
+  dependencies:
+    lodash "^4.17.20"
+    validator "^13.1.1"
+
 express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"
@@ -3132,7 +3152,7 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
-lodash@^4.17.19:
+lodash@^4.17.19, lodash@^4.17.20:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==

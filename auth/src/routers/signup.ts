@@ -1,8 +1,6 @@
+import {BadRequestError, DatabaseConnectionError, validateRequest} from '@davidgarden/common';
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
-import {BadRequestError} from '../errors/bad-request-error';
-import {DatabaseConnectionError} from '../errors/database-connection-error';
-import {validateRequest} from '../middlewares/validate-request';
 import {User} from '../models/user';
 import {generateToken} from '../services/token';
 

@@ -1,10 +1,9 @@
+import {BadRequestError, validateRequest} from '@davidgarden/common';
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
-import {BadRequestError} from '../errors/bad-request-error';
-import {validateRequest} from '../middlewares/validate-request';
+import jwt from 'jsonwebtoken';
 import {User} from '../models/user';
 import {Password} from '../services/password';
-import {generateToken} from '../services/token';
 const router = express.Router();
 
 router.post(
@@ -34,7 +33,10 @@ router.post(
 
 		// 4. user is considered to be logged in.
 		// Send them a JWT in a cookie
-		const accessToken = generateToken(dbUser);
+		const accessToken = jwt.sign(
+			{id: dbUser.id, email: dbUser.email},
+			process.env.JWT_KEY!
+		);
 		req.session = {
 			jwt: accessToken,
 		};
