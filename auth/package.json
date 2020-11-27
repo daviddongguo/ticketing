@@ -6,7 +6,8 @@
 	"scripts": {
 		"start": "ts-node-dev src/index.ts",
 		"start:local": "cross-env NODE_ENV=local ts-node-dev src/index.ts",
-		"test": "cross-env NODE_ENV=test jest --watchAll --no-cache"
+		"test": "cross-env NODE_ENV=test jest --watchAll --no-cache --forceExit",
+		"test:local": "cross-env NODE_ENV=test jest --watchAll --no-cache"
 	},
 	"jest": {
 		"preset": "ts-jest",
