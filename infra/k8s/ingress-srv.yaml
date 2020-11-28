@@ -11,6 +11,10 @@ spec:
     - host: ticketing.dev
       http:
         paths:
+          - path: /api/tickets/?(.*)
+            backend:
+              serviceName: tickets-srv
+              servicePort: 3019
           - path: /api/users/?(.*)
             backend:
               serviceName: auth-srv

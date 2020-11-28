@@ -27,3 +27,12 @@ build:
         manual:
           - src: '**/*.ts'
             dest: .
+    - image: gcr.io/fit-reference-296121/tickets
+    #- image: davidmontreal/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*/src/**/*.ts'
+            dest: .
