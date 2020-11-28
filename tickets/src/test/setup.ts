@@ -1,5 +1,9 @@
 import 'express-async-errors';
 import {MongoMemoryServer} from 'mongodb-memory-server';
+import mongoose from 'mongoose';
+
+declare global {
+	namespace NodeJS {
 		interface Global {
 			signup(email: string): Promise<string[]>;
 		}
