@@ -1,10 +1,12 @@
+import {requireAuth} from '@davidgarden/common';
 import express, {Request, Response} from 'express';
 
 const router = express.Router();
 
-router.post('/api/tickets', async (req: Request, res: Response)=>{
+router.post('/api/tickets', requireAuth, async (req: Request, res: Response)=>{
 
-  return res.status(201).send();
+  return res.status(200).send('success');
+
 });
 
 export {router as createTicketRouter};

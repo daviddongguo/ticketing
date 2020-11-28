@@ -2,27 +2,26 @@ import request from 'supertest';
 import {app} from '../../app';
 
 const url = '/api/tickets';
-it('Returns 404 statusCode to /no-existed-router', async ()=>{
-  const response = await request(app).post('/api/users/no-existed-router').send({});
-
-  expect(response.status).toEqual(404);
-});
-
-it('Returns 200 statusCode and a message to /api/users/test', async ()=>{
-  const response = await request(app).get('/api/users/test');
-  expect(response.status).toEqual(200);
-  console.table(response.body);
-  expect(response.body).not.toBeNull();
-  expect(response.body.message).toContain('Hi, there!');
-});
-
+const email = 'test@test.com';
+const password = 'test';
 it('has a route handler listening to /api/tickets for post requests', async ()=>{
   const response = await request(app).post(url).send({});
-
   expect(response.status).not.toEqual(404);
+  expect(response.status).toEqual(401);
 });
 
-it('can only be accessed if the user is signed in.', async ()=>{});
+it('returns a status other than 401 if the user is signed in.', async ()=>{
+  const cookie = await global.signin(email);
+  const response = await  request(app).post(url).set('Cookie', cookie).send({});
+  expect(response.status).not.toEqual(401);
+});
+
+it('2 returns a status other than 401 if the user is signed in.', async ()=>{
+  // await request(app).post('/api/users/signout').send({});
+  const cookie = await global.signup(email);
+  const response = await  request(app).post(url).set('Cookie', cookie).send({});
+  expect(response.status).not.toEqual(401);
+});
 
 it('returns an error if an invalid title is provided', async ()=>{});
 
