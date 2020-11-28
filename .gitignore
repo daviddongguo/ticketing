@@ -351,3 +351,4 @@ MigrationBackup/
 client/.next/
 tickets/coverage/
 auth/coverage/
+dist/
