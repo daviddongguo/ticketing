@@ -13,7 +13,6 @@ declare global {
 
 let mongo: any;
 beforeAll(async () => {
-  console.log('Test Starting....');
 	process.env.JWT_KEY = 'a-temp-key-for-test';
 
 	mongo = new MongoMemoryServer();
@@ -24,7 +23,6 @@ beforeAll(async () => {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
-		console.log('mongoDb connected.');
 	} catch (error) {
 		console.error(error);
 	}
@@ -35,7 +33,7 @@ beforeEach(async () => {
 	for (let collection of collections) {
 		await collection.deleteMany({});
   }
-  console.log("mongoDb cleaned.")
+  jest.setTimeout(10000);
 });
 
 afterAll(async () => {
@@ -45,7 +43,14 @@ afterAll(async () => {
   try {
     await mongo.stop();
     await mongoose.connection.close();
-    console.log("mongoDb Closed");
+    // test throwing database connection err
+    await request(app)
+		.post('/api/users/signup')
+		.send({
+			email: 'test@email.com',
+			password: 'test',
+		})
+		.expect(500);
   } catch (error) {
     console.error(error);
   }

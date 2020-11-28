@@ -6,8 +6,8 @@
 	"scripts": {
 		"start": "ts-node-dev src/index.ts",
 		"start:local": "cross-env NODE_ENV=local ts-node-dev src/index.ts",
-		"test": "cross-env NODE_ENV=test jest --watchAll=false",
-		"test:local": "cross-env NODE_ENV=test jest --watchAll --no-cache"
+		"test": "cross-env NODE_ENV=test jest --watchAll=false --coverage=true",
+		"test:local": "cross-env NODE_ENV=test jest --watchAll --no-cache --coverage=true --detectOpenHandles"
 	},
 	"jest": {
 		"preset": "ts-jest",
