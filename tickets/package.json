@@ -1,12 +1,13 @@
 {
-	"name": "auth",
+	"name": "tickets",
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
 		"start": "ts-node-dev src/index.ts",
 		"start:local": "cross-env NODE_ENV=local ts-node-dev src/index.ts",
-		"test": "cross-env NODE_ENV=test jest --watchAll --no-cache"
+		"test": "cross-env NODE_ENV=test jest --watchAll=false --no-cache --coverage",
+		"test:local": "cross-env NODE_ENV=test jest --watchAll --no-cache"
 	},
 	"jest": {
 		"preset": "ts-jest",
