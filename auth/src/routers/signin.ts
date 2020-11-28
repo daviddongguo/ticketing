@@ -20,7 +20,7 @@ router.post(
 		// 1. Check the inputs format
 		// 2. verify the email
 		const {email, password} = req.body;
-		const dbUser = await User.findOne({email}).exec();
+		const dbUser = await User.findOne({email}).maxTimeMS(2000).exec();
 		if (!dbUser) {
 			throw new BadRequestError('Invalid credentials.');
 		}

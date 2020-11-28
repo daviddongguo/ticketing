@@ -8,3 +8,5 @@ install:
   - cd ./auth && yarn install
 script:
   - yarn test
+  - cd ..
+  - cd ./tickets && yarn install && yarn test

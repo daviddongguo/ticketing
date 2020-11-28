@@ -49,10 +49,17 @@ afterAll(async () => {
 		.send({
 			email: 'test@email.com',
 			password: 'test',
-		})
-		.expect(500);
+    })
+    .expect(500).timeout(3000);
+    await request(app)
+		.post('/api/users/signin')
+		.send({
+			email: 'test@email.com',
+			password: 'test',
+    })
+		.expect(500).timeout(3000);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 
 
