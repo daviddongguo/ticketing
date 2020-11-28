@@ -20,7 +20,6 @@ const start = async () => {
   }
 
 	try {
-
 		await mongoose.connect(connectionString, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
