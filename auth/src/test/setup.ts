@@ -59,7 +59,6 @@ afterAll(async () => {
     })
 		.expect(500).timeout(3000);
   } catch (error) {
-    // console.error(error);
   }
 
 

@@ -12,19 +12,19 @@ const generateToken = (user: UserDoc) => {
 	);
 };
 
-const verifyToken = (token: string) => {
-  if(!token){
-    console.log('token is not provided!');
-    return null;
-  }
+// const verifyToken = (token: string) => {
+//   if(!token){
+//     console.log('token is not provided!');
+//     return null;
+//   }
 
-	try {
-    return jwt.verify(token, process.env.JWT_KEY!) as UserDoc;
-	} catch (error) {
-    console.log('token is not valid!');
-		return null;
-	}
-};
+// 	try {
+//     return jwt.verify(token, process.env.JWT_KEY!) as UserDoc;
+// 	} catch (error) {
+//     console.log('token is not valid!');
+// 		return null;
+// 	}
+// };
 
 export {generateToken, verifyToken};
 
