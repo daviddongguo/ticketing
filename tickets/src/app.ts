@@ -5,6 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import logger from 'morgan'; //Note logger = morgan~!
+import {createTicketRouter} from './routers/new';
 
 const app = express();
 app.use(cors({ credentials: true }));
@@ -26,7 +27,7 @@ app.get('/api/users/test', async (req, res) => {
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
-
+app.use(createTicketRouter);
 
 app.all('*', async (req, res) => {
 	throw new NotFoundError(`${req.url}`);

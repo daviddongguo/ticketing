@@ -12,7 +12,6 @@ declare global {
 
 let mongo: any;
 beforeAll(async () => {
-  console.log('Test Starting....');
 	process.env.JWT_KEY = 'a-temp-key-for-test';
 
 	mongo = new MongoMemoryServer();
@@ -23,7 +22,6 @@ beforeAll(async () => {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
-		console.log('mongoDb connected.');
 	} catch (error) {
 		console.error(error);
 	}
@@ -34,7 +32,6 @@ beforeEach(async () => {
 	for (let collection of collections) {
 		await collection.deleteMany({});
   }
-  console.log("mongoDb cleaned.")
 });
 
 afterAll(async () => {
@@ -44,7 +41,6 @@ afterAll(async () => {
   try {
     await mongo.stop();
     await mongoose.connection.close();
-    console.log("mongoDb Closed");
   } catch (error) {
     console.error(error);
   }
@@ -52,13 +48,13 @@ afterAll(async () => {
 
 });
 
-global.signup = async (email: string, password?: string) => {
-	const response = await request(app)
-		.post('/api/users/signup')
-		.send({
-			email,
-			password: password || 'test',
-		})
-		.expect(201);
-	return response.get('Set-Cookie');
-};
+// global.signup = async (email: string, password?: string) => {
+// 	const response = await request(app)
+// 		.post('/api/users/signup')
+// 		.send({
+// 			email,
+// 			password: password || 'test',
+// 		})
+// 		.expect(201);
+// 	return response.get('Set-Cookie');
+// };
