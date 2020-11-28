@@ -8,14 +8,16 @@ declare global {
 	namespace NodeJS {
 		interface Global {
 			signup(email: string): Promise<string[]>;
-			signin(email: string): Promise<string[]>;
+      signin(email: string): Promise<string[]>;
+      cookie: string[];
 		}
 	}
 }
 
 let mongo: any;
 beforeAll(async () => {
-	process.env.JWT_KEY = 'a-temp-key-for-test';
+  process.env.JWT_KEY = 'a-temp-key-for-test';
+  global.cookie = await global.signup('test@test.com');
 
 	mongo = new MongoMemoryServer();
 	const mongoUri = await mongo.getUri();
