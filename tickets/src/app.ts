@@ -1,4 +1,4 @@
-import {errorHandler, NotFoundError} from '@davidgarden/common';
+import {currentUser, errorHandler, NotFoundError} from '@davidgarden/common';
 import {json} from 'body-parser';
 import cookieSession from 'cookie-session';
 import cors from 'cors';
@@ -27,6 +27,7 @@ app.get('/api/users/test', async (req, res) => {
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
+app.use(currentUser);
 app.use(createTicketRouter);
 
 app.all('*', async (req, res) => {
