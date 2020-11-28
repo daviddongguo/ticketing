@@ -26,5 +26,5 @@ const generateToken = (user: UserDoc) => {
 // 	}
 // };
 
-export {generateToken, verifyToken};
+export {generateToken};
 
