@@ -5,8 +5,10 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import logger from 'morgan'; //Note logger = morgan~!
+import {indexOfTicketsRouter} from './routers';
 import {createTicketRouter} from './routers/new';
 import {showTicketsRouter} from './routers/show';
+import {updateTicketRouter} from './routers/update';
 
 const app = express();
 app.use(cors({ credentials: true }));
@@ -28,10 +30,12 @@ app.get('/api/users/test', async (req, res) => {
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
-app.use(showTicketsRouter);
-
 app.use(currentUser);
+
+app.use(indexOfTicketsRouter);
+app.use(showTicketsRouter);
 app.use(createTicketRouter);
+app.use(updateTicketRouter);
 
 app.all('*', async (req, res) => {
 	throw new NotFoundError(`${req.url}`);

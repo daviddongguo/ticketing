@@ -60,5 +60,5 @@ const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 
 
-export {Ticket};
+export {Ticket, TicketDoc};
 

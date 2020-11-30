@@ -7,9 +7,11 @@ import mongoose from 'mongoose';
 declare global {
 	namespace NodeJS {
 		interface Global {
-			signup(email: string): Promise<string[]>;
-      signin(email: string): Promise<string[]>;
+			signup(id: string, email: string): Promise<string[]>;
+      signin(id: string, email: string): Promise<string[]>;
       cookie: string[];
+      secondCookie: string[];
+      userId: string;
 		}
 	}
 }
@@ -17,7 +19,9 @@ declare global {
 let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = 'a-temp-key-for-test';
-  global.cookie = await global.signup('test@test.com');
+  global.userId = '5fc1b60998119500225995d7';
+  global.cookie = await global.signup(global.userId, 'test@test.com');
+  global.secondCookie = await global.signup('5fb9dd9621eadf145c9fc7ba', 'test@test.com');
 
 	mongo = new MongoMemoryServer();
 	const mongoUri = await mongo.getUri();
@@ -53,9 +57,9 @@ afterAll(async () => {
 
 });
 
-global.signup = async (email: string, password?: string) => {
+global.signup = async (id: string, email: string, password?: string) => {
   // Build a JWT payload. {id, email}
-  const payload = {id: '5fc1b60998119500225995d7', email};
+  const payload = {id, email};
 
   // Create the JWT
   const accessToken  = jwt.sign(payload, process.env.JWT_KEY!);
@@ -73,7 +77,7 @@ global.signup = async (email: string, password?: string) => {
   return [`session=${base64};`];
 };
 
-global.signin = async (email: string, password?: string) => {
+global.signin = async (id: string, email: string, password?: string) => {
   // session=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJalZtWXpKaU9HVm1Zemt5WWpZM05HVmxPRE14WWpOa015SXNJbVZ0WVdsc0lqb2lkR1Z6ZEVCbGJXRnBiQzVqYjIwaUxDSnBZWFFpT2pFMk1EWTFPVFk0TkRkOS5YU0FMTWw3YTNKc185ZFpBX2t2U25hX2F0TnFZb0hnRmg2cHdBcmo1c3ZjIn0=; path=/; expires=Sun, 29 Nov 2020 20:54:07 GMT; httponly
-	return await global.signup(email);
+	return await global.signup(id, email);
 };
