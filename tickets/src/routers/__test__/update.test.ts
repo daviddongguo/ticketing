@@ -1,6 +1,9 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import {app} from '../../app';
 import {Ticket} from '../../models/ticket';
+
+const id = mongoose.Types.ObjectId().toHexString();
 
 const url = '/api/tickets';
 const title = 'it is a updated title';
@@ -18,7 +21,7 @@ beforeEach(async () => {
 	console.log(ticketId);
 });
 
-it('has a route handler listening to /api/tickets for put requests', async () => {
+it('has a right route handler listening to but the user is not authenticated', async () => {
 	const response = await request(app)
 		.put(url + `/${ticketId}`)
 		.send({title, price});
@@ -26,7 +29,16 @@ it('has a route handler listening to /api/tickets for put requests', async () =>
 	expect(response.status).toEqual(401);
 });
 
-it('returns a status other than 401 if the user is signed in.', async () => {
+it('Returns 401 if the user does not own the ticket', async () => {
+
+	await request(app)
+		.put(url + `/${ticketId}`)
+		.set('Cookie', global.secondCookie)
+		.send({title, price})
+		.expect(401);
+});
+
+it('returns a status other than 401 if the user is authenticated', async () => {
 	const response = await request(app)
 		.put(url + `/${ticketId}`)
 		.set('Cookie', global.cookie)
@@ -66,41 +78,55 @@ it('returns an error if an invalid price is provide.', async () => {
 });
 
 it('Updates a ticket with valid inputs', async () => {
-
 	await request(app)
 		.put(url + `/${ticketId}`)
 		.set('Cookie', global.cookie)
 		.send({title, price})
-		.expect(200);
+		.expect(204);
 	const tickets = await Ticket.find({});
 	expect(tickets.length).toEqual(1);
 	expect(tickets[0].title).toEqual(title);
 	expect(tickets[0].price).toEqual(price);
 });
 
-it('Returns 401 with different user', async () => {
-
+it('Updates a ticket without title input', async () => {
 	await request(app)
 		.put(url + `/${ticketId}`)
-		.set('Cookie', global.secondCookie)
-		.send({title, price})
-		.expect(401);
+		.set('Cookie', global.cookie)
+		.send({price})
+		.expect(204);
+	const tickets = await Ticket.find({});
+	expect(tickets.length).toEqual(1);
+	expect(tickets[0].title).toEqual(oldTitle);
+	expect(tickets[0].price).toEqual(price);
 });
 
-it('Returns 400 with empty ticket id', async () => {
-
+it('Updates a ticket without price input', async () => {
 	await request(app)
-		.put(url + '/')
+		.put(url + `/${ticketId}`)
+		.set('Cookie', global.cookie)
+		.send({title})
+		.expect(204);
+	const tickets = await Ticket.find({});
+	expect(tickets.length).toEqual(1);
+	expect(tickets[0].title).toEqual(title);
+	expect(tickets[0].price).toEqual(oldPrice);
+});
+
+
+
+it('Returns 400 if the provided id is invalid.', async () => {
+	await request(app)
+		.put(url + '/invalidId')
 		.set('Cookie', global.secondCookie)
 		.send({title, price})
 		.expect(400);
 });
 
-it('Returns 400 with invalid ticket id', async () => {
-
+it('Returns 404 if the provided id does not exist', async () => {
 	await request(app)
-		.put(url + '/wrongid')
+		.put(url + `/${id}`)
 		.set('Cookie', global.secondCookie)
 		.send({title, price})
-		.expect(400);
+		.expect(404);
 });
