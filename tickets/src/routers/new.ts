@@ -1,10 +1,7 @@
-import {requireAuth} from '@davidgarden/common';
+import {DatabaseConnectionError, requireAuth, validateRequest} from '@davidgarden/common';
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
 import {Ticket} from '../models/ticket';
-import {DatabaseConnectionError} from './../../../common/src/errors/database-connection-error';
-import {validateRequest} from './../../../common/src/middlewares/validate-request';
-
 const router = express.Router();
 
 router.post(
