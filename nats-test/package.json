@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "publish": "ts-node-dev --rs --notify false src/publisher.ts",
-    "listen": "ts-node-dev --rs notify false src/listener.ts"
+    "listen": "ts-node-dev --rs --notify false src/listener.ts"
   },
   "dependencies": {
     "@types/node": "^14.14.10",
