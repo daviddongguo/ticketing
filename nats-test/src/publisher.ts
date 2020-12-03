@@ -1,22 +1,29 @@
+import {randomBytes} from 'crypto';
 import nats from 'node-nats-streaming';
+import {TicketCreatedPublisher} from './events/ticket-created-publisher';
 
 console.clear();
 
 const stan = nats.connect('ticketing', 'abc', {
-  // use loadBalance
+	// use loadBalance
 	url: 'http://35.196.98.224:4222',
 });
 
-stan.on('connect', () => {
-  console.log('Publisher connected to NATS');
+let basePrice = 1.99;
 
-  const data = JSON.stringify({
-    id: 'adafd',
-    title: 'concert',
-    price: 20
-  });
+stan.on('connect', async() => {
+	console.log('Publisher connected to NATS');
 
-  stan.publish('ticket:created', data, ()=>{
-    console.log('Event published.');
-  });
+	const publisher = new TicketCreatedPublisher(stan);
+
+  try {
+    await publisher.publish({
+      id: randomBytes(4).toString('hex'),
+      title: randomBytes(1).toString('hex'),
+      price: ++basePrice,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
 });
