@@ -9,14 +9,14 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 });
 
 stan.on('connect', () => {
-	console.log('Listener connected to NATS');
+  console.log('Listener connected to NATS');
 
-	stan.on('close', () => {
-		console.log('Nats connection closed!');
-		process.exit();
-	});
+  stan.on('close', () => {
+    console.log('NATS connection closed!');
+    process.exit();
+  });
 
-	new TicketCreatedListener(stan).listen();
+  new TicketCreatedListener(stan).listen();
 });
 
 process.on('SIGINT', () => stan.close());
