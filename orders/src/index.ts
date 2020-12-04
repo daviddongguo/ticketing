@@ -64,8 +64,8 @@ const start = async () => {
 		console.error(error);
 	}
 
-	app.listen(3019, () => {
-		console.log('Tickets server is listening on port 3019...');
+	app.listen(3020, () => {
+		console.log('Tickets server is listening on port 3020...');
 	});
 };
 
