@@ -3,6 +3,7 @@ import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
 import {TicketCreatedPublisher} from '../events/publishers/ticket-created-publisher';
 import {Ticket} from '../models/ticket';
+import {natsWrapper} from './../nats-wrapper';
 const router = express.Router();
 
 router.post(
@@ -25,7 +26,7 @@ router.post(
       const newTicket = Ticket.build({title, price, userId});
       // Save locally and Push event
       await newTicket.save();
-      new TicketCreatedPublisher(client).publish({
+      new TicketCreatedPublisher(natsWrapper.client).publish({
         id: newTicket.id,
         title: newTicket.title,
         price: newTicket.price,
