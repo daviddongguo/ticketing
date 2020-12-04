@@ -8,5 +8,13 @@
     "signup",
     "ticketingclient"
   ],
+  "jest.pathToJest": "yarn run test:local",
+  "jest.rootPath": "./tickets",
+  "activationEvents": [
+    "workspaceContains:node_modules/.bin/jest",
+    "workspaceContains:node_modules/react-scripts/node_modules/.bin/jest",
+    "workspaceContains:node_modules/react-native-scripts",
+    "onCommand:io.orta.jest.start"
+  ],
   "compile-hero.disable-compile-files-on-did-save-code": true
 }
