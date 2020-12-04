@@ -9,7 +9,9 @@ import {
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
 import mongoose from 'mongoose';
+import {TicketUpdatedPublisher} from '../events/publishers/ticket-updated-publisher';
 import {Ticket} from '../models/ticket';
+import {natsWrapper} from '../nats-wrapper';
 const router = express.Router();
 
 router.put(
@@ -52,9 +54,16 @@ router.put(
 
 		const {title, price} = req.body;
 		try {
+      // save doc to DB and push event to NATS
 			dbTicket.title = title ? title : dbTicket.title;
 			dbTicket.price = price ? price : dbTicket.price;
-			await dbTicket.save();
+      await dbTicket.save();
+      await new TicketUpdatedPublisher(natsWrapper.client).publish({
+        id: dbTicket.id,
+        title: dbTicket.title,
+        price: dbTicket.price,
+        userId: dbTicket.userId,
+      });
 			return res.status(204).send(dbTicket);
 		} catch (error) {
 			throw new DatabaseConnectionError('Broke! as updating ticket');

@@ -23,10 +23,10 @@ router.post(
 		const {title, price} = req.body;
 		const userId = req.currentUser!.id;
 		try {
+      // save doc to DB and push event to NATS
       const newTicket = Ticket.build({title, price, userId});
-      // Save locally and Push event
       await newTicket.save();
-      new TicketCreatedPublisher(natsWrapper.client).publish({
+      await new TicketCreatedPublisher(natsWrapper.client).publish({
         id: newTicket.id,
         title: newTicket.title,
         price: newTicket.price,
