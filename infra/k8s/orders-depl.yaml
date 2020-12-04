@@ -45,5 +45,5 @@ spec:
   ports:
     - name: orders
       protocol: TCP
-      port: 3019
-      targetPort: 3019
+      port: 3020
+      targetPort: 3020
