@@ -4,9 +4,10 @@ node_js:
 notifications:
   email: false
 
-install:
-  - cd ./auth && yarn install
+
 script:
-  - yarn test
+  - cd ./auth && yarn install && yarn test
   - cd ..
   - cd ./tickets && yarn install && yarn test
+  - cd ..
+  - cd ./orders && yarn install && yarn test
