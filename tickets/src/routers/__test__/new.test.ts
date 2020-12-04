@@ -1,11 +1,11 @@
 import request from 'supertest';
 import {app} from '../../app';
 import {Ticket} from '../../models/ticket';
+import {natsWrapper} from './../../nats-wrapper';
 
 const url = '/api/tickets';
 const title = 'it is a title';
 const price: number = 1.99;
-const userId = 'cabdef2111';
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
 	const response = await request(app).post(url).send({title, price});
@@ -75,4 +75,14 @@ it('creates a ticket with valid inputs', async () => {
   expect(tickets.length).toEqual(1);
   expect(tickets[0].title).toEqual(title);
   expect(tickets[0].price).toEqual(price);
+});
+
+it('publishes an event', async()=>{
+
+	await request(app)
+		.post(url)
+		.set('Cookie', global.cookie)
+		.send({title, price})
+    .expect(201);
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

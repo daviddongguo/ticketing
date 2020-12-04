@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import {app} from '../../app';
 import {Ticket} from '../../models/ticket';
+import {natsWrapper} from './../../nats-wrapper';
 
 const id = mongoose.Types.ObjectId().toHexString();
 
@@ -113,7 +114,14 @@ it('Updates a ticket without price input', async () => {
 	expect(tickets[0].price).toEqual(oldPrice);
 });
 
-
+it('Publish an event', async () => {
+	await request(app)
+		.put(url + `/${ticketId}`)
+		.set('Cookie', global.cookie)
+		.send({title})
+		.expect(204);
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
 
 it('Returns 400 if the provided id is invalid.', async () => {
 	await request(app)
