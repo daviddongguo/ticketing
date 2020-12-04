@@ -6,6 +6,7 @@ import {Ticket} from '../models/ticket';
 import {natsWrapper} from './../nats-wrapper';
 const router = express.Router();
 
+
 router.post(
 	'/api/tickets',
 	requireAuth, // Throw Error if currentUser is null
