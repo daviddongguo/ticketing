@@ -27,6 +27,13 @@ it(`retrieves one order to ${baseUrl}/orderId for get requests`, async () => {
 	expect(response.body.orders[0].ticketId).toEqual(global.ticketId);
 });
 
+it('returns a  401 if the user does not own the order', async () => {
+	await request(app)
+		.get(baseUrl + `/${orderId}`)
+		.set('Cookie', global.secondCookie)
+		.expect(401);
+});
+
 it('returns a  404 if the order is not found', async () => {
 	await request(app)
 		.get(baseUrl + '/' + randomId)
@@ -40,3 +47,5 @@ it('returns a  400 if the orderId is not valid', async () => {
 		.set('Cookie', global.cookie)
 		.expect(400);
 });
+
+
