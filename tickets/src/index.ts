@@ -5,28 +5,43 @@ import {natsWrapper} from './nats-wrapper';
 const mongoDbString = require('../configs/mongoDb');
 
 const start = async () => {
-	let mongoDbConnectionString = '';
-	let natsConnectiongUrl = 'http://nats-srv:4222';
+	let mongoDbConnectionString = mongoDbString.googleDb || '';
+  let clusterId = process.env.NATS_CLUSTER_ID || '';
+  let clientId = process.env.NATS_CLIENT_ID || '';
+  let natsUrl = process.env.NATS_URL || '';
+
 	if (process.env.NODE_ENV === 'local') {
 		mongoDbConnectionString = mongoDbString.localDb;
-		natsConnectiongUrl = 'http://35.196.98.224:4222';
-		process.env.JWT_KEY = 'local-jwt-key';
+    clusterId = 'local-cluser';
+    clientId = 'local-client-';
+		natsUrl = 'http://35.196.98.224:4222';
+    process.env.JWT_KEY = 'local-jwt-key';
 	} else {
-		if (!mongoDbString.googleDb) {
+		if (mongoDbConnectionString === '') {
 			throw new Error('MONGO_URI must be defined.');
-		}
-		mongoDbConnectionString = mongoDbString.googleDb;
+    }
 
-		if (!process.env.JWT_KEY) {
+		if (clusterId === '') {
+			throw new Error('CLUSTER_ID must be defined.');
+    }
+
+    if (clientId === '') {
+			throw new Error('NATS_URL must be defined.');
+    }
+    if (natsUrl === '') {
+			throw new Error('CLIENT_ID must be defined.');
+    }
+
+    if (process.env.JWT_KEY === '') {
 			throw new Error('JWT_KEY must be defined.');
-		}
+    }
 	}
 
 	try {
 		await natsWrapper.connect(
-			'ticketing',
-			'from-ticket-creat',
-			natsConnectiongUrl
+			clusterId,
+			clientId,
+			natsUrl
 		);
 		natsWrapper.client.on('close', () => {
 			console.log('NATS connection close');
