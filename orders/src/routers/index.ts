@@ -1,7 +1,6 @@
-import {DatabaseConnectionError} from '@davidgarden/common';
+import {DatabaseConnectionError, requireAuth} from '@davidgarden/common';
 import express, {Request, Response} from 'express';
 import {Order} from '../models/order';
-import {requireAuth} from './../../../common/src/middlewares/require-auth';
 
 const router = express.Router();
 

@@ -3,7 +3,7 @@ import {
   DatabaseConnectionError,
   NotAuthorizedError,
   NotFoundError,
-  requireAuth
+  requireAuth, validateRequest
 } from '@davidgarden/common';
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
@@ -11,7 +11,6 @@ import mongoose from 'mongoose';
 import {OrderUpdatedPublisher} from '../events/publishers/order-updated-publisher';
 import {Order} from '../models/order';
 import {natsWrapper} from '../nats-wrapper';
-import {validateRequest} from './../../../common/src/middlewares/validate-request';
 const router = express.Router();
 
 router.put(
