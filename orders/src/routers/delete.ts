@@ -7,7 +7,9 @@ import {
   requireAuth
 } from '@davidgarden/common';
 import express, {Request, Response} from 'express';
+import {OrderCancelledPublisher} from '../events/publishers/order-cancelled-publisher';
 import {Order, OrderDoc} from '../models/order';
+import {natsWrapper} from '../nats-wrapper';
 const mongoose = require('mongoose');
 
 const router = express.Router();
@@ -26,7 +28,7 @@ router.delete(
 		// returns 400 if error
 		let dbOrder: OrderDoc | null = null;
 		try {
-			dbOrder = await Order.findById(orderId).maxTimeMS(200).exec();
+			dbOrder = await Order.findById(orderId).populate('ticket');
 		} catch (error) {
 			throw new DatabaseConnectionError(error.message);
 		}
@@ -41,19 +43,24 @@ router.delete(
 			throw new NotAuthorizedError(
 				`Order(id=${orderId}) is not belong to you!`
 			);
-    }
+		}
 
-    try {
-      dbOrder.status = OrderStatus.Cancelled;
-      await dbOrder.save();
-      return res.status(204).send(dbOrder);
+		try {
+      // save in datatbase
+			dbOrder.status = OrderStatus.Cancelled;
+			await dbOrder.save();
 
-      // publish an event saying this order was cancelled!
-
-    } catch (error) {
-      throw new DatabaseConnectionError();
-    }
-
+			// publish an event saying this order was cancelled!
+			await new OrderCancelledPublisher(natsWrapper.client).publish({
+				id: dbOrder.id,
+				ticket: {
+					id: dbOrder.ticket.id,
+				},
+			});
+			return res.status(204).send(dbOrder);
+		} catch (error) {
+			throw new DatabaseConnectionError();
+		}
 	}
 );
 
