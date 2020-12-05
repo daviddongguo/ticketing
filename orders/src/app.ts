@@ -9,7 +9,6 @@ import {indexOfOrdersRouter} from './routers';
 import {deleteOrdersRouter} from './routers/delete';
 import {createOrderRouter} from './routers/new';
 import {showOrdersRouter} from './routers/show';
-import {updateOrderRouter} from './routers/update';
 
 const app = express();
 app.use(cors({ credentials: true }));
@@ -34,7 +33,6 @@ app.get('/api/users/test', async (req, res) => {
 app.use(currentUser);
 
 app.use(createOrderRouter);
-app.use(updateOrderRouter);
 app.use(indexOfOrdersRouter);
 app.use(showOrdersRouter);
 app.use(deleteOrdersRouter);
