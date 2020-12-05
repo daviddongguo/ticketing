@@ -1,9 +1,11 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import {app} from '../../app';
 import {Order} from '../../models/order';
 import {natsWrapper} from './../../nats-wrapper';
 
 const url = '/api/orders';
+const randomId = mongoose.Types.ObjectId().toHexString();
 
 it('has a route handler listening to /api/orders for post requests', async () => {
 	const response = await request(app)
@@ -28,6 +30,32 @@ it('returns a  400 if the ticketId is not valid', async () => {
 		.set('Cookie', global.cookie)
 		.send({ticketId: 'invalidticketeid'})
 		.expect(400);
+	await request(app)
+		.post(url)
+		.set('Cookie', global.cookie)
+		.send({ticketId: '                     '})
+		.expect(400);
+});
+
+it('returns an error if the ticket does not exist', async () => {
+	await request(app)
+		.post(url)
+		.set('Cookie', global.cookie)
+		.send({ticketId: randomId})
+		.expect(404);
+});
+
+it('returns an error if the order is already reserved', async () => {
+	await request(app)
+		.post(url)
+		.set('Cookie', global.cookie)
+		.send({ticketId: global.ticketId})
+		.expect(201);
+	await request(app)
+		.post(url)
+		.set('Cookie', global.cookie)
+		.send({ticketId: global.ticketId})
+		.expect(400);
 });
 
 it('creates a order with valid inputs', async () => {
@@ -40,9 +68,10 @@ it('creates a order with valid inputs', async () => {
 		.send({ticketId: global.ticketId})
 		.expect(201);
 	orders = await Order.find({});
+	console.log(orders[0]);
 	expect(orders.length).toEqual(1);
 	expect(orders[0].userId).toEqual(global.userId);
-	expect(orders[0].ticketId).toEqual(global.ticketId);
+	expect(orders[0].ticket.toString()).toEqual(global.ticketId);
 });
 
 it('publishes an event', async () => {
