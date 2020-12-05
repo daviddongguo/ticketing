@@ -2,6 +2,7 @@ import 'express-async-errors';
 import jwt from 'jsonwebtoken';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import {Ticket} from '../models/ticket';
 
 
 declare global {
@@ -26,10 +27,8 @@ beforeAll(async () => {
   process.env.JWT_KEY = 'a-temp-key-for-test';
   global.userId = '5fc1b60998119500225995d7';
   global.secondUserid = '5fb9dd9621eadf145c9fc7ba'
-  global.ticketId = '5fc1b60998119500225995d7';
-  global.secondTicketId = '5fb9dd9621eadf145c9fc7ba';
   global.cookie = await global.signup(global.userId, 'test@test.com');
-  global.secondCookie = await global.signup(global.secondUserid, 'test@test.com');
+  global.secondCookie = await global.signup(global.secondUserid, 'test2@test.com');
 
 	mongo = new MongoMemoryServer();
 	const mongoUri = await mongo.getUri();
@@ -50,6 +49,19 @@ beforeEach(async () => {
 	for (let collection of collections) {
 		await collection.deleteMany({});
   }
+  // Create a ticket to be ordered
+  const ticket = Ticket.build({
+    title: 'a test event will be ordered.',
+    price: 1.99,
+  })
+  await ticket.save();
+  global.ticketId = ticket.id;
+  const secondTicket = Ticket.build({
+    title: 'second event',
+    price: 2.99
+  })
+  await secondTicket.save();
+  global.secondTicketId = secondTicket.id;
 });
 
 afterAll(async () => {

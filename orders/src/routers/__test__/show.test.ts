@@ -24,7 +24,7 @@ it(`retrieves one order to ${baseUrl}/orderId for get requests`, async () => {
 	expect(response.body.orders.length).toEqual(1);
 	expect(response.body.orders[0].id).toEqual(orderId);
 	expect(response.body.orders[0].userId).toEqual(global.userId);
-	expect(response.body.orders[0].ticketId).toEqual(global.ticketId);
+	expect(response.body.orders[0].ticket.toString()).toEqual(global.ticketId);
 });
 
 it('returns a  401 if the user does not own the order', async () => {
