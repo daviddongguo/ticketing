@@ -48,14 +48,14 @@ router.put(
 		const {status} = req.body;
 		try {
       // save doc to DB and push event to NATS
-			dbOrder.status = status ? status : 'pending';
+			dbOrder.status = status ? status : dbOrder.status;
       await dbOrder.save();
       await new OrderUpdatedPublisher(natsWrapper.client).publish({
         id: dbOrder.id,
-        ticketId: dbOrder.ticketId,
+        ticketId: dbOrder.ticket.toString(),
         userId: dbOrder.userId,
         status: dbOrder.status,
-        expiresAt: dbOrder.expiresAt,
+        expiresAt: dbOrder.expiresAt.toString(),
       });
 			return res.status(204).send(dbOrder);
 		} catch (error) {

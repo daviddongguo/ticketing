@@ -1,3 +1,4 @@
+import {OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import request from 'supertest';
 import {app} from '../../app';
@@ -5,7 +6,7 @@ import {Order} from '../../models/order';
 import {natsWrapper} from './../../nats-wrapper';
 
 const id = mongoose.Types.ObjectId().toHexString();
-const status = 'paid';
+const status = OrderStatus.Complete;
 const url = '/api/orders'
 let orderId = 'intial-id';
 
@@ -44,7 +45,7 @@ it('returns a status other than 401 if the user is authenticated', async () => {
 });
 
 
-it('Updates a order with valid inputs', async () => {
+it('Updates an order with valid inputs', async () => {
 	await request(app)
 		.put(url + `/${orderId}`)
 		.set('Cookie', global.cookie)
@@ -54,7 +55,6 @@ it('Updates a order with valid inputs', async () => {
 	expect(orders.length).toEqual(1);
 	expect(orders[0].status).toEqual(status);
 	expect(orders[0].userId).toEqual(global.userId);
-	expect(orders[0].ticketId).toEqual(global.ticketId);
 });
 
 
