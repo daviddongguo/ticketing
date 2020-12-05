@@ -6,6 +6,7 @@ import express from 'express';
 import 'express-async-errors';
 import logger from 'morgan'; //Note logger = morgan~!
 import {indexOfOrdersRouter} from './routers';
+import {deleteOrdersRouter} from './routers/delete';
 import {createOrderRouter} from './routers/new';
 import {showOrdersRouter} from './routers/show';
 import {updateOrderRouter} from './routers/update';
@@ -36,6 +37,8 @@ app.use(createOrderRouter);
 app.use(updateOrderRouter);
 app.use(indexOfOrdersRouter);
 app.use(showOrdersRouter);
+app.use(deleteOrdersRouter);
+deleteOrdersRouter
 
 app.all('*', async (req, res) => {
 	throw new NotFoundError(`${req.url}`);
