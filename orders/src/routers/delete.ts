@@ -44,10 +44,11 @@ router.delete(
     }
 
     try {
-      // await dbOrder.remove();
       dbOrder.status = OrderStatus.Cancelled;
       await dbOrder.save();
       return res.status(204).send(dbOrder);
+
+      // publish an event saying this order was cancelled!
 
     } catch (error) {
       throw new DatabaseConnectionError();

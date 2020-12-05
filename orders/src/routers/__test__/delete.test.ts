@@ -8,17 +8,15 @@ const baseUrl = '/api/orders';
 
 const randomId = mongoose.Types.ObjectId().toHexString();
 
-it(`deletes one order to ${baseUrl}/orderId for delete requests`, async () => {
+it(`marks an order as cancelled`, async () => {
   const ticket = await global.createTicket();
   const orderId =(await global.createOrder(ticket, global.userId)).id;
   const response = await request(app)
 		.delete(baseUrl + `/${orderId}`)
 		.set('Cookie', global.cookie);
   expect(response.status).toEqual(204);
-  const orders = await Order.find();
-  expect(orders.length).toEqual(1);
-  expect(orders[0].status).toEqual(OrderStatus.Cancelled);
-
+  const order = await Order.findById(orderId);
+  expect(order!.status).toEqual(OrderStatus.Cancelled);
 });
 
 it('returns a  401 if the user does not own the order', async () => {
@@ -43,5 +41,7 @@ it('returns a  400 if the orderId is not valid', async () => {
 		.set('Cookie', global.cookie)
 		.expect(400);
 });
+
+it.todo('emits a order cancelled event');
 
 
