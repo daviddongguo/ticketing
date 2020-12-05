@@ -15,7 +15,6 @@ router.get(
 	'/api/orders/:orderId',
 	requireAuth,
 	async (req: Request, res: Response) => {
-		const currentUserId = req.currentUser?.id;
 		const orderId = req.params.orderId;
 
 		// returns 400 if error
@@ -37,7 +36,7 @@ router.get(
 		}
 
 		// returns 401 if the current user does not own the order
-		if (order.userId !== currentUserId) {
+		if (order.userId !== req.currentUser!.id) {
 			throw new NotAuthorizedError(
 				`Order(id=${orderId}) is not belong to you!`
 			);
