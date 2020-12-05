@@ -2,24 +2,21 @@ import mongoose from 'mongoose';
 
 interface OrderAttrs {
 	userId: string;
-  ticketId: string;
+  ticket: TicketDoc;
   status: string;
-  expiresAt: string;
+  expiresAt: Date;
 }
 
 interface OrderDoc extends mongoose.Document {
-	orderId: string;
 	userId: string;
-  ticketId: string;
+  ticket: TicketDoc;
   status: string;
-  expiresAt: string;
+  expiresAt: Date;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
 	build(attrs: OrderAttrs): OrderDoc;
 }
-
-const todayStr: string = new Date().toISOString().slice(0, 10);
 
 const orderSchema = new mongoose.Schema(
 	{
@@ -27,8 +24,9 @@ const orderSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		ticketId: {
-			type: String,
+		ticket: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Ticket',
 			required: true,
 		},
 		status: {
@@ -36,10 +34,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: 'pending',
 		},
-		ExpiresAt: {
-			type: String,
+		expiresAt: {
+			type: mongoose.Schema.Types.Date,
 			required: true,
-			default: todayStr,
+			default: Date.now(),
 		},
 	},
 	{
