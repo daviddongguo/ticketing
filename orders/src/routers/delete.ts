@@ -3,6 +3,7 @@ import {
   DatabaseConnectionError,
   NotAuthorizedError,
   NotFoundError,
+  OrderStatus,
   requireAuth
 } from '@davidgarden/common';
 import express, {Request, Response} from 'express';
@@ -15,7 +16,6 @@ router.delete(
 	'/api/orders/:orderId',
 	requireAuth,
 	async (req: Request, res: Response) => {
-		const currentUserId = req.currentUser?.id;
 		const orderId = req.params.orderId;
 
 		// returns 400 if error
@@ -37,15 +37,17 @@ router.delete(
 		}
 
 		// returns 401 if the current user does not own the order
-		if (dbOrder.userId !== currentUserId) {
+		if (dbOrder.userId !== req.currentUser!.id) {
 			throw new NotAuthorizedError(
 				`Order(id=${orderId}) is not belong to you!`
 			);
     }
 
     try {
-      await dbOrder.remove();
-      return res.status(204).send();
+      // await dbOrder.remove();
+      dbOrder.status = OrderStatus.Cancelled;
+      await dbOrder.save();
+      return res.status(204).send(dbOrder);
 
     } catch (error) {
       throw new DatabaseConnectionError();

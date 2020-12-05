@@ -1,3 +1,4 @@
+import {OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import request from 'supertest';
 import {app} from '../../app';
@@ -15,7 +16,8 @@ it(`deletes one order to ${baseUrl}/orderId for delete requests`, async () => {
 		.set('Cookie', global.cookie);
   expect(response.status).toEqual(204);
   const orders = await Order.find();
-  expect(orders.length).toEqual(0);
+  expect(orders.length).toEqual(1);
+  expect(orders[0].status).toEqual(OrderStatus.Cancelled);
 
 });
 
