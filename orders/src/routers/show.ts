@@ -26,7 +26,7 @@ router.get(
 		// returns 400 if error
 		let order: OrderDoc | null = null;
 		try {
-			order = await Order.findById(orderId).maxTimeMS(200).exec();
+			order = await Order.findById(orderId).populate('ticket');
 		} catch (error) {
 			throw new DatabaseConnectionError(error.message);
 		}

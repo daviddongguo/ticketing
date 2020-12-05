@@ -74,7 +74,7 @@ it('creates a order with valid inputs', async () => {
 	expect(orders[0].ticket.toString()).toEqual(global.ticketId);
 });
 
-it('publishes an event', async () => {
+it('emits an order created event', async () => {
 	await request(app)
 		.post(url)
 		.set('Cookie', global.cookie)
@@ -82,3 +82,5 @@ it('publishes an event', async () => {
 		.expect(201);
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
+
+it.todo('throw an database connection error');

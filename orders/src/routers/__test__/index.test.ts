@@ -26,7 +26,9 @@ it(`has a route handler listening to ${baseUrl} for get requests`, async () => {
 it(`retrieves a list of orders to ${baseUrl} for get requests`, async () => {
 	const response = await request(app).get(baseUrl).set('Cookie', global.cookie);
 	expect(response.status).toEqual(200);
-	expect(response.body.orders.length).toEqual(2);
+  expect(response.body.orders.length).toEqual(2);
+  expect(response.body.orders[0].ticket.id).toEqual(global.ticketId);
+  expect(response.body.orders[1].ticket.id).toEqual(global.secondTicketId);
 });
 
 
