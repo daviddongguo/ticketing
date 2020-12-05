@@ -6,19 +6,11 @@ import {Order} from '../../models/order';
 const baseUrl = '/api/orders';
 
 const randomId = mongoose.Types.ObjectId().toHexString();
-let orderId = 'intial-orderId';
-
-beforeEach(async () => {
-	const response = await request(app)
-		.post(baseUrl)
-		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId})
-		.expect(201);
-	orderId = response.body.id;
-});
 
 it(`deletes one order to ${baseUrl}/orderId for delete requests`, async () => {
-	const response = await request(app)
+  const ticket = await global.createTicket();
+  const orderId =(await global.createOrder(ticket, global.userId)).id;
+  const response = await request(app)
 		.delete(baseUrl + `/${orderId}`)
 		.set('Cookie', global.cookie);
   expect(response.status).toEqual(204);
@@ -28,6 +20,8 @@ it(`deletes one order to ${baseUrl}/orderId for delete requests`, async () => {
 });
 
 it('returns a  401 if the user does not own the order', async () => {
+  const ticket = await global.createTicket();
+  const orderId =(await global.createOrder(ticket, global.userId)).id;
 	await request(app)
 		.delete(baseUrl + `/${orderId}`)
 		.set('Cookie', global.secondCookie)

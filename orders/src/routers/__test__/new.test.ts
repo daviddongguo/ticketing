@@ -46,15 +46,16 @@ it('returns an error if the ticket does not exist', async () => {
 });
 
 it('returns an error if the order is already reserved', async () => {
+  const ticketId = (await global.createTicket()).id;
 	await request(app)
 		.post(url)
 		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId})
+		.send({ticketId})
 		.expect(201);
 	await request(app)
 		.post(url)
 		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId})
+		.send({ticketId})
 		.expect(400);
 });
 
@@ -62,23 +63,25 @@ it('creates a order with valid inputs', async () => {
 	let orders = await Order.find({});
 	expect(orders.length).toEqual(0);
 
+  const ticketId = (await global.createTicket()).id;
 	await request(app)
 		.post(url)
 		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId})
+		.send({ticketId})
 		.expect(201);
 	orders = await Order.find({});
 	console.log(orders[0]);
 	expect(orders.length).toEqual(1);
 	expect(orders[0].userId).toEqual(global.userId);
-	expect(orders[0].ticket.toString()).toEqual(global.ticketId);
+	expect(orders[0].ticket.toString()).toEqual(ticketId);
 });
 
 it('emits an order created event', async () => {
+  const ticketId = (await global.createTicket()).id;
 	await request(app)
 		.post(url)
 		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId})
+		.send({ticketId})
 		.expect(201);
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

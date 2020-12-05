@@ -10,14 +10,6 @@ const status = OrderStatus.Complete;
 const url = '/api/orders'
 let orderId = 'intial-id';
 
-beforeEach(async () => {
-	const response = await request(app)
-		.post(`/api/orders`)
-		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId});
-  orderId = response.body.id;
-	console.log(`Created a order (id = ${orderId} status = ${response.body.status})`);
-});
 
 it('has a right route handler listening to but the user is not authenticated', async () => {
 	const response = await request(app)
@@ -28,7 +20,8 @@ it('has a right route handler listening to but the user is not authenticated', a
 });
 
 it('Returns 401 if the user does not own the order', async () => {
-
+  const ticket = await global.createTicket();
+  const orderId = (await global.createOrder(ticket, global.userId)).id;
 	await request(app)
 		.put(url + `/${orderId}`)
 		.set('Cookie', global.secondCookie)
@@ -46,6 +39,8 @@ it('returns a status other than 401 if the user is authenticated', async () => {
 
 
 it('Updates an order with valid inputs', async () => {
+  const ticket = await global.createTicket();
+  const orderId = (await global.createOrder(ticket, global.userId)).id;
 	await request(app)
 		.put(url + `/${orderId}`)
 		.set('Cookie', global.cookie)
@@ -59,6 +54,8 @@ it('Updates an order with valid inputs', async () => {
 
 
 it('Publish an event', async () => {
+  const ticket = await global.createTicket();
+  const orderId = (await global.createOrder(ticket, global.userId)).id;
 	await request(app)
 		.put(url + `/${orderId}`)
 		.set('Cookie', global.cookie)

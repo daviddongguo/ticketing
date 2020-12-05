@@ -5,18 +5,11 @@ import {app} from '../../app';
 const baseUrl = '/api/orders';
 
 const randomId = mongoose.Types.ObjectId().toHexString();
-let orderId = 'intial-orderId';
 
-beforeEach(async () => {
-	const response = await request(app)
-		.post(baseUrl)
-		.set('Cookie', global.cookie)
-		.send({ticketId: global.ticketId})
-		.expect(201);
-	orderId = response.body.id;
-});
 
 it(`retrieves one order to ${baseUrl}/orderId for get requests`, async () => {
+  const ticket = await global.createTicket();
+  const orderId =(await global.createOrder(ticket, global.userId)).id;
 	const response = await request(app)
 		.get(baseUrl + `/${orderId}`)
 		.set('Cookie', global.cookie);
@@ -24,10 +17,12 @@ it(`retrieves one order to ${baseUrl}/orderId for get requests`, async () => {
 	expect(response.body.orders.length).toEqual(1);
 	expect(response.body.orders[0].id).toEqual(orderId);
 	expect(response.body.orders[0].userId).toEqual(global.userId);
-  expect(response.body.orders[0].ticket.id).toEqual(global.ticketId);
+  expect(response.body.orders[0].ticket.id).toEqual(ticket.id);
 });
 
 it('returns a  401 if the user does not own the order', async () => {
+  const ticket = await global.createTicket();
+  const orderId =(await global.createOrder(ticket, global.userId)).id;
 	await request(app)
 		.get(baseUrl + `/${orderId}`)
 		.set('Cookie', global.secondCookie)
