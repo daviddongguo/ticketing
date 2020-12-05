@@ -8,10 +8,10 @@ const router = express.Router();
 
 
 router.post(
-	'/api/orders/:ticketId',
+	'/api/orders',
 	requireAuth, // Throw Error if currentUser is null
 	async (req: Request, res: Response) => {
-    const {ticketId} = req.params;
+    const {ticketId} = req.body;
     if(!mongoose.Types.ObjectId.isValid(ticketId)){
       throw new BadRequestError(`ticketId = ${ticketId} is not valid`);
     }

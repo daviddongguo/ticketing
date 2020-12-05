@@ -9,9 +9,9 @@ let orderId = 'intial-orderId';
 
 beforeEach(async () => {
 	const response = await request(app)
-		.post(baseUrl + `/${global.ticketId}`)
+		.post(baseUrl)
 		.set('Cookie', global.cookie)
-		.send({})
+		.send({ticketId: global.ticketId})
 		.expect(201);
 	orderId = response.body.id;
 });

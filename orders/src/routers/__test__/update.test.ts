@@ -11,9 +11,9 @@ let orderId = 'intial-id';
 
 beforeEach(async () => {
 	const response = await request(app)
-		.post(`/api/orders/${global.ticketId}`)
+		.post(`/api/orders`)
 		.set('Cookie', global.cookie)
-		.send({});
+		.send({ticketId: global.ticketId});
   orderId = response.body.id;
 	console.log(`Created a order (id = ${orderId} status = ${response.body.status})`);
 });
