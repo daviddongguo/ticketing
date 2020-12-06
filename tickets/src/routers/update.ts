@@ -60,6 +60,7 @@ router.put(
       await dbTicket.save();
       await new TicketUpdatedPublisher(natsWrapper.client).publish({
         id: dbTicket.id,
+        version: dbTicket.version,
         title: dbTicket.title,
         price: dbTicket.price,
         userId: dbTicket.userId,

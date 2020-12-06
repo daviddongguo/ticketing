@@ -33,3 +33,22 @@ it('implements optimistic concurrency control', async (done) => {
 
   throw new Error('Should not reach this point');
 });
+
+it('increments the version number on multiple saves', async()=>{
+  	// Create an instance of a ticket
+	const title = 'a title for event';
+	const ticket = Ticket.build({
+		title,
+		price: 2.99,
+		userId: 'auseridlikethis',
+	});
+
+	// Save the ticket to the database
+  await ticket.save();
+  expect(ticket.version).toEqual(0);
+  await ticket.save();
+  expect(ticket.version).toEqual(1);
+  await ticket.save();
+  expect(ticket.version).toEqual(2);
+
+});
