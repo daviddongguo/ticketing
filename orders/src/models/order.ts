@@ -1,5 +1,6 @@
 import {OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 import {TicketDoc} from './ticket';
 
 interface OrderAttrs {
@@ -14,6 +15,7 @@ interface OrderDoc extends mongoose.Document {
   ticket: TicketDoc;
   status: OrderStatus;
   expiresAt: Date;
+  version: number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -52,6 +54,8 @@ const orderSchema = new mongoose.Schema(
 		},
 	}
 );
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 // -2  Define function then create mode
 orderSchema.statics.build = (attrs: OrderAttrs) => {
