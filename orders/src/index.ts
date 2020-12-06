@@ -1,6 +1,8 @@
 import 'express-async-errors';
 import mongoose from 'mongoose';
 import {app} from './app';
+import {TicketCreatedListener} from './events/listeners/ticket-created-listener';
+import {TicketUpdatedListener} from './events/listeners/ticket-updated-listener';
 import {natsWrapper} from './nats-wrapper';
 const mongoDbString = require('../configs/mongoDb');
 
@@ -13,7 +15,7 @@ const start = async () => {
 	if (process.env.NODE_ENV === 'local') {
 		mongoDbConnectionString = mongoDbString.localDb;
     clusterId = 'ticketing';
-    clientId = 'local-client-';
+    clientId = 'local-orders-client';
 		natsUrl = 'http://35.196.98.224:4222';
     process.env.JWT_KEY = 'local-jwt-key';
 	} else {
@@ -38,6 +40,7 @@ const start = async () => {
 	}
 
 	try {
+    // NATS begin
 		await natsWrapper.connect(
 			clusterId,
 			clientId,
@@ -52,7 +55,11 @@ const start = async () => {
 		});
 		process.on('SIGTERM', () => {
 			natsWrapper.client.close();
-		});
+    });
+
+    new TicketCreatedListener(natsWrapper.client).listen();
+    new TicketUpdatedListener(natsWrapper.client).listen();
+    // NATS end
 
 		await mongoose.connect(mongoDbConnectionString, {
 			useNewUrlParser: true,
@@ -65,7 +72,7 @@ const start = async () => {
 	}
 
 	app.listen(3020, () => {
-		console.log('Tickets server is listening on port 3020...');
+		console.log('Orders server is listening on port 3020...');
 	});
 };
 

@@ -12,8 +12,8 @@ const start = async () => {
 
 	if (process.env.NODE_ENV === 'local') {
 		mongoDbConnectionString = mongoDbString.localDb;
-    clusterId = 'local-cluser';
-    clientId = 'local-client-';
+    clusterId = 'ticketing';
+    clientId = 'local-tickets-client';
 		natsUrl = 'http://35.196.98.224:4222';
     process.env.JWT_KEY = 'local-jwt-key';
 	} else {
