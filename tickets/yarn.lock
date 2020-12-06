@@ -280,9 +280,9 @@
     minimist "^1.2.0"
 
 "@davidgarden/common@^1.0.4":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.12.tgz#66ad2954aa419641fee2fa7620e92e798f91969c"
-  integrity sha512-4B2+wsXffJm4zfP0YdUAIABdKfLLeXGLzT8fscaWqjPFrWpS+CQ5uMr0WjE2YUrz67JB4Z1Jewnzn9R1F27rxg==
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.13.tgz#a1a0828c85eced7beff70a7d415da67b0487b6c7"
+  integrity sha512-yhWLJdZdUSTbhSWqMumb1+qEWE9FqFShHpiKpRfN1rjZ0vpe+jq/S7f8/mDCGygwaF7s6njUqtKPalqxOjeoLQ==
   dependencies:
     "@types/cookie-session" "^2.0.41"
     "@types/jsonwebtoken" "^8.5.0"
