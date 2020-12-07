@@ -3,22 +3,22 @@ import {Message} from 'node-nats-streaming';
 import {Ticket} from '../../models/ticket';
 import {queueGroupName} from './queue-group-name';
 
+export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
+	readonly subject = Subjects.TicketCreated;
+	queueGroupName = queueGroupName;
 
-export class TicketCreatedListener extends Listener<TicketCreatedEvent>{
-  readonly subject = Subjects.TicketCreated;
-  queueGroupName = queueGroupName;
-
-  async onMessage(data: TicketCreatedEvent['data'], msg: Message){
-
-
-    // save data to local tickets collection
-    const {id, title, price} = data;
-    const ticket = Ticket.build({
-      id, title, price
-    });
+	async onMessage(data: TicketCreatedEvent['data'], msg: Message) {
+		// save data to local tickets collection
+		const {id, version, title, price} = data;
+		const ticket = Ticket.build({
+			id,
+			title,
+			price,
+		});
     await ticket.save();
+    console.log(ticket);
 
-    // Successfully process an event
-    msg.ack();
-  }
+		// Successfully process an event
+		msg.ack();
+	}
 }
