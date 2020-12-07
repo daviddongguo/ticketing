@@ -55,19 +55,6 @@ beforeEach(async () => {
 	for (let collection of collections) {
 		await collection.deleteMany({});
 	}
-	// // Create a ticket to be ordered
-	// const ticket = Ticket.build({
-	//   title: 'a test event will be ordered.',
-	//   price: 1.99,
-	// })
-	// await ticket.save();
-	// global.ticketId = ticket.id;
-	// const secondTicket = Ticket.build({
-	//   title: 'second event',
-	//   price: 2.99
-	// })
-	// await secondTicket.save();
-	// global.secondTicketId = secondTicket.id;
 });
 
 afterAll(async () => {
