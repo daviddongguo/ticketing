@@ -10,16 +10,14 @@ interface TicketAttrs {
 interface TicketDoc extends mongoose.Document {
 	title: string;
 	price: number;
-	userId: string;
-  createAt: string;
+  userId: string;
+  orderId?: string;
   version: number;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
 	build(attrs: TicketAttrs): TicketDoc;
 }
-
-const todayStr: string = new Date().toISOString().slice(0, 10);
 
 const ticketSchema = new mongoose.Schema(
 	{
@@ -35,10 +33,8 @@ const ticketSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		createAt: {
+		orderId: {
 			type: String,
-			required: true,
-			default: todayStr,
 		},
 	},
 	{

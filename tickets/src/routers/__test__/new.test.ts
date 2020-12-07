@@ -72,17 +72,16 @@ it('creates a ticket with valid inputs', async () => {
 		.send({title, price})
 		.expect(201);
 	tickets = await Ticket.find({});
-  expect(tickets.length).toEqual(1);
-  expect(tickets[0].title).toEqual(title);
-  expect(tickets[0].price).toEqual(price);
+	expect(tickets.length).toEqual(1);
+	expect(tickets[0].title).toEqual(title);
+	expect(tickets[0].price).toEqual(price);
 });
 
-it('publishes an event', async()=>{
-
+it('publishes an event', async () => {
 	await request(app)
 		.post(url)
 		.set('Cookie', global.cookie)
 		.send({title, price})
-    .expect(201);
-    expect(natsWrapper.client.publish).toHaveBeenCalled();
+		.expect(201);
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

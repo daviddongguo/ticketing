@@ -9,7 +9,7 @@
     "ticketingclient"
   ],
   "jest.pathToJest": "yarn run test:local",
-  "jest.rootPath": "./orders",
+  "jest.rootPath": "./tickets",
   "activationEvents": [
     "workspaceContains:node_modules/.bin/jest",
     "workspaceContains:node_modules/react-scripts/node_modules/.bin/jest",
