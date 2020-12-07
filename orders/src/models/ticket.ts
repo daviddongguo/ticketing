@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import {Order} from './order';
 
 interface TicketAttrs {
-	id?: string;
+  id?: string;
+  version?: number;
 	title: string;
 	price: number;
 }
@@ -50,7 +51,6 @@ ticketSchema.pre('save', function(done){
   this.$where = {
     version: this.get('version') -1
   };
-
   done();
 });
 
@@ -62,7 +62,8 @@ ticketSchema.statics.findByEvent = (event: {id: string; version: number}) => {
 };
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
 	return new Ticket({
-		_id: attrs.id,
+    _id: attrs.id,
+    version: attrs.version,
 		title: attrs.title,
     price: attrs.price,
 	});

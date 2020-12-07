@@ -12,7 +12,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent>{
     // save data to local tickets collection
     const dbTicket = await Ticket.findByEvent(data);
     if(!dbTicket){
-      throw new NotFoundError('Ticket(id=${id})');
+      throw new NotFoundError(`Ticket(id=${data.id}, version=${data.version - 1})`);
     }
     const {title, price, version} = data;
     dbTicket.set({title, price, version});
