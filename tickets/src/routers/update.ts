@@ -45,7 +45,13 @@ router.put(
 		}
 		if (!dbTicket) {
 			throw new NotFoundError(`Ticket(id=${ticketId})`);
-		}
+    }
+
+    // rejects editing of reserved ticket
+    if(dbTicket.orderId){
+      throw new BadRequestError('Can NOT edit a reserved ticket!', 'ticket')
+    }
+
 
 		// returns 401
 		if (dbTicket.userId !== req.currentUser!.id) {

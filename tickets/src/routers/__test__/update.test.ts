@@ -78,7 +78,7 @@ it('returns an error if an invalid price is provide.', async () => {
 		.expect(400);
 });
 
-it('Updates a ticket with valid inputs', async () => {
+it('Updates a ticket successfully', async () => {
 	await request(app)
 		.put(url + `/${ticketId}`)
 		.set('Cookie', global.cookie)
@@ -88,6 +88,21 @@ it('Updates a ticket with valid inputs', async () => {
 	expect(tickets.length).toEqual(1);
 	expect(tickets[0].title).toEqual(title);
 	expect(tickets[0].price).toEqual(price);
+});
+
+it('Rejects updating a reserved ticket ', async () => {
+  // Reserves a ticket
+  const dbTicket = await Ticket.findById(ticketId);
+  const orderId = mongoose.Types.ObjectId().toHexString();
+  dbTicket!.set({orderId});
+  await dbTicket?.save();
+
+  // Try edit the ticket
+	await request(app)
+		.put(url + `/${ticketId}`)
+		.set('Cookie', global.cookie)
+		.send({title, price})
+		.expect(400);
 });
 
 it('Updates a ticket without title input', async () => {
