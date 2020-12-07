@@ -43,7 +43,7 @@ namespace restSharpTests
         {
             // Arrange
             var request = new RestRequest("/api/users/signin", Method.POST);
-            request.AddJsonBody(new { email = "email@email.com", password = "123" });
+            request.AddJsonBody(new { email = "email@email.com", password = "test" });
             // Act
             var response = _client.ExecuteAsync(request).GetAwaiter().GetResult();
 
