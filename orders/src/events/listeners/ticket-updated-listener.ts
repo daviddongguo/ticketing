@@ -14,8 +14,8 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent>{
     if(!dbTicket){
       throw new NotFoundError('Ticket(id=${id})');
     }
-    const {title, price} = data;
-    dbTicket.set({title, price});
+    const {title, price, version} = data;
+    dbTicket.set({title, price, version});
     await dbTicket.save();
 
     // Successfully process an event
