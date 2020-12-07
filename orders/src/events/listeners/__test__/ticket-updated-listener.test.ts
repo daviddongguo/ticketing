@@ -2,7 +2,7 @@ import {TicketUpdatedEvent} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import {Message} from 'node-nats-streaming';
 import {Ticket} from '../../../models/ticket';
-import {natsWrapper} from '../../../nats-wrapper';
+import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {TicketUpdatedListener} from '../ticket-updated-listener';
 
 const title = 'a fake title for testing';
@@ -15,7 +15,8 @@ const setup = async () => {
 		price: 1.99,
 	});
 	await ticket.save();
-	// create an instance of the listener
+  // create an instance of the listener
+  // @ts-ignore
 	const listener = new TicketUpdatedListener(natsWrapper.client);
 	// create a fake data event
 	const data: TicketUpdatedEvent['data'] = {

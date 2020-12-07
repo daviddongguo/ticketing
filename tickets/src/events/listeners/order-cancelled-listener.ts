@@ -10,6 +10,7 @@ import {TicketUpdatedPublisher} from '../publishers/ticket-updated-publisher';
 import {queueGroupName} from './queue-group-name';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
+
 	readonly subject = Subjects.OrderCancelled;
 	queueGroupName = queueGroupName;
 
@@ -37,5 +38,3 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 		msg.ack();
 	}
 }
-
-

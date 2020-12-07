@@ -2,7 +2,7 @@ import {TicketCreatedEvent} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import {Message} from 'node-nats-streaming';
 import {Ticket} from '../../../models/ticket';
-import {natsWrapper} from '../../../nats-wrapper';
+import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {TicketCreatedListener} from '../ticket-created-listener';
 
 const id = mongoose.Types.ObjectId().toHexString();
@@ -10,6 +10,7 @@ const title = 'a fake title for testing';
 
 const setup = async () => {
   // create an instance of the listener
+  // @ts-ignore
   const listener = new TicketCreatedListener(natsWrapper.client);
   // create a fake data event
   const data: TicketCreatedEvent['data'] = {
