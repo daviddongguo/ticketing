@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using RestSharp;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace restSharpTests
@@ -18,6 +17,23 @@ namespace restSharpTests
             _client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
         }
 
+        [TestCase(201), Timeout(8000)]
+        public void CreateOrder_Created(int expectedstatusCode)
+        {
+            var ticketId = CreateTicket();
+            var result = CreateOrder(ticketId);
+            Assert.That(result.Length > 2);
+        }
+
+        [Ignore("")]
+        [TestCase(201), Timeout(8000)]
+        public void CreateTicket_Created(int expectedstatusCode)
+        {
+            var result = CreateTicket();
+            Assert.That(result.Length > 2);
+        }
+
+        [Ignore("")]
         [TestCase(200), Timeout(8000)]
         public void Users_Test(int expectedstatusCode)
         {
@@ -34,80 +50,8 @@ namespace restSharpTests
             System.Console.WriteLine(response.Content);
         }
 
-        [TestCase(201), Timeout(8000)]
-        public void CreateTicket_Created(int expectedstatusCode)
-        {
-            var result = CreateTicket();
-            Assert.That(result.Length > 2);
-        }
 
-        [TestCase(201), Timeout(8000)]
-        public void CreateOrder_Created(int expectedstatusCode)
-        {
-            var ticketId = CreateTicket();
-            var result = CreateOrder(ticketId);
-            Assert.That(result.Length > 2);
-        }
-
-        private string CreateOrder(string ticketIdStr)
-        {
-            try{
-            var request = new RestRequest("/api/orders", Method.POST);
-            request.AddJsonBody(new { ticketId = ticketIdStr});
-            var response = _client.ExecuteAsync(request).GetAwaiter().GetResult();
-
-            System.Console.WriteLine(response.ResponseUri);
-            var data = (JObject)JsonConvert.DeserializeObject(response.Content);
-            var id = data["id"].Value<string>();
-            var status = data["status"].Value<string>();
-            var version = data["version"].Value<string>();
-            var TicketId = data["ticket"]["id"].Value<string>();
-            System.Console.WriteLine($"Order created: \n");
-            System.Console.WriteLine($"id: {id}\n");
-            System.Console.WriteLine($"status: {status}\n");
-            System.Console.WriteLine($"version: {version}\n");
-            System.Console.WriteLine($"TicketId: {TicketId}\n");
-
-            return id;
-
-            }catch{
-                return "";
-
-            }
-
-        }
-
-        private string CreateTicket()
-        {
-            try{
-                Signin(_client, "test@email.com", "test");
-            var request = new RestRequest("/api/tickets", Method.POST);
-            request.AddJsonBody(new { title = "the title of an event", price = 1.999 });
-            var response = _client.ExecuteAsync(request).GetAwaiter().GetResult();
-
-            System.Console.WriteLine(response.ResponseUri);
-            var data = (JObject)JsonConvert.DeserializeObject(response.Content);
-            var id = data["id"].Value<string>();
-            var title = data["title"].Value<string>();
-            var price = data["price"].Value<string>();
-            var userId = data["userId"].Value<string>();
-            var version = data["version"].Value<string>();
-            System.Console.WriteLine($"Ticket created: \n");
-            System.Console.WriteLine($"id: {id}\n");
-            System.Console.WriteLine($"title: {title}\n");
-            System.Console.WriteLine($"price: {price}\n");
-            System.Console.WriteLine($"userId: {userId}\n");
-            System.Console.WriteLine($"version: {version}\n");
-
-            return id;
-
-            }catch{
-                return "";
-
-            }
-
-        }
-
+        [Ignore("")]
         [TestCase(200), Timeout(8000)]
         public void Signin_OK(int expectedstatusCode)
         {
@@ -121,6 +65,70 @@ namespace restSharpTests
             var data = (JObject)JsonConvert.DeserializeObject(responseGetCurrentUser.Content);
             var email = data["currentUser"]["email"].Value<string>();
             Assert.That(email, Is.EqualTo("test@email.com"));
+        }
+
+        private string CreateOrder(string ticketIdStr)
+        {
+            try
+            {
+                var request = new RestRequest("/api/orders", Method.POST);
+                request.AddJsonBody(new { ticketId = ticketIdStr });
+                var response = _client.ExecuteAsync(request).GetAwaiter().GetResult();
+
+                System.Console.WriteLine(response.ResponseUri);
+                var data = (JObject)JsonConvert.DeserializeObject(response.Content);
+                var id = data["id"].Value<string>();
+                var status = data["status"].Value<string>();
+                var version = data["version"].Value<string>();
+                var TicketId = data["ticket"]["id"].Value<string>();
+                System.Console.WriteLine($"Order created: \n");
+                System.Console.WriteLine($"id: {id}\n");
+                System.Console.WriteLine($"status: {status}\n");
+                System.Console.WriteLine($"version: {version}\n");
+                System.Console.WriteLine($"TicketId: {TicketId}\n");
+
+                return id;
+
+            }
+            catch
+            {
+                return "";
+
+            }
+
+        }
+        private string CreateTicket()
+        {
+            try
+            {
+                Signin(_client, "test@email.com", "test");
+                var request = new RestRequest("/api/tickets", Method.POST);
+                request.AddJsonBody(new { title = "the title of an event", price = 1.999 });
+                var response = _client.ExecuteAsync(request).GetAwaiter().GetResult();
+
+                System.Console.WriteLine(response.ResponseUri);
+                var data = (JObject)JsonConvert.DeserializeObject(response.Content);
+                var id = data["id"].Value<string>();
+                var title = data["title"].Value<string>();
+                var price = data["price"].Value<string>();
+                var userId = data["userId"].Value<string>();
+                var version = data["version"].Value<string>();
+                System.Console.WriteLine($"Ticket created: \n");
+                System.Console.WriteLine($"id: {id}\n");
+                System.Console.WriteLine($"title: {title}\n");
+                System.Console.WriteLine($"price: {price}\n");
+                System.Console.WriteLine($"userId: {userId}\n");
+                System.Console.WriteLine($"version: {version}\n");
+
+                return id;
+
+            }
+            catch
+            {
+                return "";
+
+            }
+
         }
         private void Signin(RestClient client, string emailStr, string passwordStr)
         {
@@ -136,7 +144,7 @@ namespace restSharpTests
 
             //Pick-Up login Cookie and setting it to Client Cookie Container
             client.CookieContainer = new System.Net.CookieContainer();
-            var accessToken = response.Cookies.First( c => c.Name == "session");
+            var accessToken = response.Cookies.First(c => c.Name == "session");
             client.CookieContainer.Add(new System.Net.Cookie(accessToken.Name, accessToken.Value, accessToken.Path, accessToken.Domain));
 
             // send new request to verify
