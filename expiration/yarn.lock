@@ -279,10 +279,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@davidgarden/common@^1.0.15":
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.15.tgz#58986ab5e9bd47b2854c8ff30cb9107c13040557"
-  integrity sha512-D4uU7NK8eVrUTneOttfNlQGz2goXGcWIoiVLa2bFLnrv1i5HrgCq+srtMQ4gBw2KdMu+HWVNbJp4A7WBkorPbA==
+"@davidgarden/common@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.16.tgz#cbcdc2b89e0a1e34ac035c5c3d76917a2885ea90"
+  integrity sha512-dqeEuHBo14uvb6viNfSoy9ApV15p0u01Co4LctFZKbqL/RcJtb35DmM0yIL8coCzOvNnDgkxSZ8dLtq4qrsNlQ==
   dependencies:
     "@types/cookie-session" "^2.0.41"
     "@types/jsonwebtoken" "^8.5.0"
