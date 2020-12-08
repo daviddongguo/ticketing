@@ -38,7 +38,7 @@ namespace restSharpTests
         public void CreateTicket_Created(int expectedstatusCode)
         {
             var result = CreateTicket();
-            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Length > 2);
         }
 
         [TestCase(201), Timeout(8000)]
@@ -46,7 +46,7 @@ namespace restSharpTests
         {
             var ticketId = CreateTicket();
             var result = CreateOrder(ticketId);
-            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Length > 2);
         }
 
         private string CreateOrder(string ticketIdStr)
@@ -62,7 +62,7 @@ namespace restSharpTests
             var status = data["status"].Value<string>();
             var version = data["version"].Value<string>();
             var TicketId = data["ticket"]["id"].Value<string>();
-            System.Console.WriteLine($"Ticket created: \n");
+            System.Console.WriteLine($"Order created: \n");
             System.Console.WriteLine($"id: {id}\n");
             System.Console.WriteLine($"status: {status}\n");
             System.Console.WriteLine($"version: {version}\n");
@@ -99,7 +99,7 @@ namespace restSharpTests
             System.Console.WriteLine($"userId: {userId}\n");
             System.Console.WriteLine($"version: {version}\n");
 
-            return userId;
+            return id;
 
             }catch{
                 return "";
