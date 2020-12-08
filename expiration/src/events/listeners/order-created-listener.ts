@@ -13,7 +13,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     await expirationQueue.add(
 			{orderId: data.id},
 			{
-				delay: delay - 14 * 60000,
+				delay: delay - 880000,
 			}
 		);
 
