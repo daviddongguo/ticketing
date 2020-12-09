@@ -1,11 +1,10 @@
 import {
-  Listener,
+  DatabaseConnectionError, Listener,
   NotFoundError,
   OrderCancelledEvent, OrderStatus, Subjects
 } from '@davidgarden/common';
 import {Message} from 'node-nats-streaming';
 import {Order} from '../../models/order';
-import {DatabaseConnectionError} from './../../../../common/src/errors/database-connection-error';
 import {queueGroupName} from './queue-group-name';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
