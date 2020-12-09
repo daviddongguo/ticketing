@@ -279,10 +279,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@davidgarden/common@^1.0.16":
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.16.tgz#cbcdc2b89e0a1e34ac035c5c3d76917a2885ea90"
-  integrity sha512-dqeEuHBo14uvb6viNfSoy9ApV15p0u01Co4LctFZKbqL/RcJtb35DmM0yIL8coCzOvNnDgkxSZ8dLtq4qrsNlQ==
+"@davidgarden/common@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@davidgarden/common/-/common-1.0.17.tgz#b80b5aa7846cabae27e041bdf71a2c8c2212c20e"
+  integrity sha512-BrsWh/0NoIQpv0MZgq82YRZDpIJ9LAIIrA8MR8fXrB81fD/4dmn4XnM0snne3EkVbSonwIIAlNAdFVREM1094A==
   dependencies:
     "@types/cookie-session" "^2.0.41"
     "@types/jsonwebtoken" "^8.5.0"
@@ -542,9 +542,9 @@
     "@types/node" "*"
 
 "@types/connect@*":
-  version "3.4.33"
-  resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.33.tgz#31610c901eca573b8713c3330abc6e6b9f588546"
-  integrity sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
+  version "3.4.34"
+  resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.34.tgz#170a40223a6d666006d93ca128af2beb1d9b1901"
+  integrity sha512-ePPA/JuI+X0vb+gSWlPKOY0NdNAie/rPUqX2GUPpbZwiKTkSPhjXWuee47E4MtE54QVzGCQMQkAL6JhV2E1+cQ==
   dependencies:
     "@types/node" "*"
 
@@ -569,9 +569,9 @@
     "@types/express" "*"
 
 "@types/express-serve-static-core@*":
-  version "4.17.14"
-  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.14.tgz#cabf91debeeb3cb04b798e2cff908864e89b6106"
-  integrity sha512-uFTLwu94TfUFMToXNgRZikwPuZdOtDgs3syBtAIr/OXorL1kJqUJT9qCLnRZ5KBOWfZQikQ2xKgR2tnDj1OgDA==
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.15.tgz#7c3d37829a991da9a507c1efd44d97532e8909e3"
+  integrity sha512-pb71P0BrBAx7cQE+/7QnA1HTQUkdBKMlkPY7lHUMn0YvPJkL2UA+KW3BdWQ309IT+i9En/qm45ZxpjIcpgEhNQ==
   dependencies:
     "@types/node" "*"
     "@types/qs" "*"
@@ -614,9 +614,9 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/jest@26.x":
-  version "26.0.17"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.17.tgz#c63b44af7528bbc05974dfacc2c90fe13ed5534d"
-  integrity sha512-5sy3dHuiT/nJGM0XZ8ozFgdR4Y/gmi89n2OCDthTULSi8nG3YdcSDVuxYT3X7eN62NGXWJYz2oNOpDp/aIaynQ==
+  version "26.0.18"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.18.tgz#3c5f9228e9ac15bd42f903f1acf2ad6ea5ed73d9"
+  integrity sha512-scDPs+mELZgsFetTgBSsIxKGrlitn9t/d2ecP+S1QSIGD+31fkMBEftLfOAX5k3tU06/0PjreJIQ+gWEbbHqpw==
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
@@ -639,9 +639,9 @@
   integrity sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==
 
 "@types/mongodb@*", "@types/mongodb@^3.5.27":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.2.tgz#a43602b984dc9046826e9c7b63e4931196f0c3ff"
-  integrity sha512-bPr+qfixiWW4N3JSOOq9NiK2HOIvZajp9ebthhVMpBhzrH3x1noBohyzBB+sA+xRkIg7okp3upDV4eyO+jg2Yw==
+  version "3.6.3"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.3.tgz#5655af409d9e32d5d5ae9a653abf3e5f9c83eb7a"
+  integrity sha512-6YNqGP1hk5bjUFaim+QoFFuI61WjHiHE1BNeB41TA00Xd2K7zG4lcWyLLq/XtIp36uMavvS5hoAUJ+1u/GcX2Q==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
