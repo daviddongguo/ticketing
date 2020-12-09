@@ -10,13 +10,15 @@ import {TicketUpdatedPublisher} from '../publishers/ticket-updated-publisher';
 import {queueGroupName} from './queue-group-name';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
-
 	readonly subject = Subjects.OrderCancelled;
 	queueGroupName = queueGroupName;
 
 	async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
 		// Find the ticket that the order is reserving.
-		const dbTicket = await Ticket.findById(data.ticket.id);
+		const dbTicket = await Ticket.findOne({
+			_id: data.ticket.id,
+			version: data.version -1,
+		});
 		if (!dbTicket) {
 			throw new NotFoundError(`Ticket(id=${data.ticket.id})`);
 		}
