@@ -1,4 +1,4 @@
-import {ExpirationCompleteEvent} from '@davidgarden/common';
+import {ExpirationCompleteEvent, OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import {Message} from 'node-nats-streaming';
 import {Order} from '../../../models/order';
@@ -6,7 +6,6 @@ import {Ticket} from '../../../models/ticket';
 import {EXPIRATION_WINDOW_SECONDS} from '../../../routers/new';
 import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {ExpirationCompletedListener} from '../expiration-completed-listener';
-import {OrderStatus} from './../../../../../common/src/events/order-status';
 
 
 const setup = async () => {
