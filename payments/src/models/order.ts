@@ -52,13 +52,13 @@ const orderSchema = new mongoose.Schema(
 orderSchema.set('versionKey', 'version');
 orderSchema.plugin(updateIfCurrentPlugin);
 
-orderSchema.pre('save', function(done){
-  // @ts-ignore
-  this.$where = {
-    version: this.get('version') -1
-  };
-  done();
-});
+// orderSchema.pre('save', function(done){
+//   // @ts-ignore
+//   this.$where = {
+//     version: this.get('version') -1
+//   };
+//   done();
+// });
 
 orderSchema.statics.findByEvent = (event: {id: string; version: number}) => {
 	return Order.findOne({

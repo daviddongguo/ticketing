@@ -6,21 +6,21 @@ import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {OrderCancelledListener} from '../order-cancelled-listener';
 
 const setup = async () => {
-  const orderId = mongoose.Types.ObjectId().toHexString();
 	const order = Order.build({
-    id: orderId,
+    id: mongoose.Types.ObjectId().toHexString(),
     status: OrderStatus.Created,
-    version: 11,
+    //TODO: set version is not 0
+    version: 0,
 		userId: 'mongoose.Types.ObjectId().toHexString()',
-		price: 1.0,
+		price: 9.99,
   });
-	await order.save();
+  await order.save();
 
   // @ts-ignore
 	const listener = new OrderCancelledListener(natsWrapper.client);
 	const data: OrderCancelledEvent['data'] = {
-		id: orderId,
-		version: 12,
+		id: order.id,
+		version: 1,
 		ticket: {
 			id: 'mongoose.Types.ObjectId().toHexString()',
 		},
@@ -36,7 +36,9 @@ const setup = async () => {
 
 it('updates the status of the order, and acks the message', async () => {
   const {listener, data, msg} = await setup();
-  expect((await Order.findById(data.id))?.status).not.toEqual(OrderStatus.Cancelled);
+  const dbOrder = await Order.findById(data.id);
+  expect(dbOrder?.status).not.toEqual(OrderStatus.Cancelled);
+  console.log(dbOrder);
 	// call the onMessage function with the data object + message objec
 	await listener.onMessage(data, msg);
 	// write assertions to make sure a ticket was created.
@@ -65,5 +67,5 @@ it('does not ack the message', async () => {
 		expect(error).toBeDefined();
 	}
 	// write assertions to make sure ack function is called.
-	expect(msg.ack).toBeCalled();
+	expect(msg.ack).not.toBeCalled();
 });

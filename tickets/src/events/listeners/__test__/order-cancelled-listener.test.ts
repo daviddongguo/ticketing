@@ -65,5 +65,5 @@ it('does not ack the message', async () => {
 		expect(error).toBeDefined();
 	}
 	// write assertions to make sure ack function is called.
-	expect(msg.ack).toBeCalled();
+	expect(msg.ack).not.toBeCalled();
 });
