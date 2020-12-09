@@ -1,12 +1,10 @@
 import {
   Listener,
   NotFoundError,
-  OrderCancelledEvent,
-  Subjects
+  OrderCancelledEvent, OrderStatus, Subjects
 } from '@davidgarden/common';
 import {Message} from 'node-nats-streaming';
 import {Order} from '../../models/order';
-import {OrderStatus} from './../../../../common/src/events/order-status';
 import {queueGroupName} from './queue-group-name';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
