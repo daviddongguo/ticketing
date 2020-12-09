@@ -5,20 +5,21 @@ import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 interface OrderAttrs {
   id: string;
   status: OrderStatus;
-  vesion: number;
+  version: number;
   userId: string;
   price: number;
 }
 
 interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
-  vesion: number;
+  version: number;
   userId: string;
   price: number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
-	build(attrs: OrderAttrs): OrderDoc;
+  build(attrs: OrderAttrs): OrderDoc;
+	findByEvent(event: {id: string; version: number}): Promise<OrderDoc | null>;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -51,12 +52,27 @@ const orderSchema = new mongoose.Schema(
 orderSchema.set('versionKey', 'version');
 orderSchema.plugin(updateIfCurrentPlugin);
 
+orderSchema.pre('save', function(done){
+  // @ts-ignore
+  this.$where = {
+    version: this.get('version') -1
+  };
+  done();
+});
+
+orderSchema.statics.findByEvent = (event: {id: string; version: number}) => {
+	return Order.findOne({
+		_id: event.id,
+		version: event.version - 1,
+	});
+};
+
 // -2  Define function then create mode
 orderSchema.statics.build = (attrs: OrderAttrs) => {
 	return new Order({
     _id: attrs.id,
     status: attrs.status,
-    version: attrs.vesion,
+    version: attrs.version,
     userId: attrs.userId,
     price: attrs.price,
 
