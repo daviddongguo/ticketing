@@ -10,52 +10,47 @@ build:
   googleCloudBuild:
     projectId: fit-reference-296121
   artifacts:
-    - image: gcr.io/fit-reference-296121/auth
-    #- image: davidmontreal/auth
-      context: auth
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*/src/**/*.ts'
-            dest: .
-    - image: gcr.io/fit-reference-296121/ticketingclient
-      context: client
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '**/*.ts'
-            dest: .
-    - image: gcr.io/fit-reference-296121/tickets
-    #- image: davidmontreal/tickets
-      context: tickets
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*/src/**/*.ts'
-            dest: .
-    - image: gcr.io/fit-reference-296121/orders
-    #- image: davidmontreal/orders
-      context: orders
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*/src/**/*.ts'
-            dest: .
-    - image: gcr.io/fit-reference-296121/expiration
-    #- image: davidmontreal/expiration
-      context: expiration
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*/src/**/*.ts'
-            dest: .
+    #- image: gcr.io/fit-reference-296121/auth
+      #context: auth
+      #docker:
+        #dockerfile: Dockerfile
+      #sync:
+        #manual:
+          #- src: '*/src/**/*.ts'
+            #dest: .
+    #- image: gcr.io/fit-reference-296121/ticketingclient
+      #context: client
+      #docker:
+        #dockerfile: Dockerfile
+      #sync:
+        #manual:
+          #- src: '**/*.ts'
+            #dest: .
+    #- image: gcr.io/fit-reference-296121/tickets
+      #context: tickets
+      #docker:
+        #dockerfile: Dockerfile
+      #sync:
+        #manual:
+          #- src: '*/src/**/*.ts'
+            #dest: .
+    #- image: gcr.io/fit-reference-296121/orders
+      #context: orders
+      #docker:
+        #dockerfile: Dockerfile
+      #sync:
+        #manual:
+          #- src: '*/src/**/*.ts'
+            #dest: .
+    #- image: gcr.io/fit-reference-296121/expiration
+      #context: expiration
+      #docker:
+        #dockerfile: Dockerfile
+      #sync:
+        #manual:
+          #- src: '*/src/**/*.ts'
+            #dest: .
     - image: gcr.io/fit-reference-296121/payments
-    #- image: davidmontreal/expiration
       context: payments
       docker:
         dockerfile: Dockerfile
