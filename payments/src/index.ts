@@ -1,6 +1,8 @@
 import 'express-async-errors';
 import mongoose from 'mongoose';
+import {OrderCreatedListener} from './../../tickets/src/events/listeners/order-created-listener';
 import {app} from './app';
+import {OrderCancelledListener} from './events/listeners/order-cancelled-listener';
 import {natsWrapper} from './nats-wrapper';
 const mongoDbString = require('../configs/mongoDb');
 
@@ -53,6 +55,9 @@ const start = async () => {
 		process.on('SIGTERM', () => {
 			natsWrapper.client.close();
     });
+
+    new OrderCreatedListener(natsWrapper.client).listen();
+    new OrderCancelledListener(natsWrapper.client).listen();
 
 		await mongoose.connect(mongoDbConnectionString, {
 			useNewUrlParser: true,
