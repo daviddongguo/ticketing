@@ -65,7 +65,8 @@ const start = async () => {
 		});
 		console.log('Connected to MongoDb by ' + `${mongoDbConnectionString}`);
 	} catch (error) {
-		console.error(error);
+    // console.error(error);
+    throw error;
 	}
 
 	app.listen(3019, () => {

@@ -2,6 +2,9 @@ import {BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus, require
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
 import {Order} from '../models/order';
+import {stripe} from '../stripe';
+
+stripe
 
 const router = express.Router();
 
@@ -24,7 +27,15 @@ router.post(
       throw new BadRequestError('Can NOT pay for an cancelled order.', 'order.status');
     }
 
-    return res.status(201).send({success: true, order: dbOrder});
+    // pay by string
+    const charge = await stripe.charges.create({
+      amount: dbOrder.price * 100,
+      currency: 'cad',
+      source: token,
+      description: 'Test Charge (created for API docs)',
+    });
+
+    return res.status(201).send({success: true, charge});
 
 
 	}
