@@ -4,8 +4,6 @@ import {body} from 'express-validator';
 import {Order} from '../models/order';
 import {stripe} from '../stripe';
 
-stripe
-
 const router = express.Router();
 
 router.post(
