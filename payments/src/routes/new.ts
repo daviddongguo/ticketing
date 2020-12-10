@@ -1,9 +1,17 @@
 import {requireAuth, validateRequest} from '@davidgarden/common';
-import {Request, Response} from 'express';
+import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
-import {app} from '../app';
 
+const router = express.Router();
 
-app.post('/api/charges', requireAuth, [body('orderid')], validateRequest, (req: Request, res: Response)=>{
-  return res.status(201).send();
-});
+router.post(
+	'/api/payments',
+	requireAuth,
+	[body('token').not().isEmpty(), body('oderId').not().isEmpty()],
+	validateRequest,
+	async (req: Request, res: Response) => {
+		return res.status(201).send({success:true});
+	}
+);
+
+export {router as createChargeRouter};

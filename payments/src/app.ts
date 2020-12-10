@@ -4,9 +4,12 @@ import cookieSession from 'cookie-session';
 import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
-import logger from 'morgan'; //Note logger = morgan~!
+import morgan from 'morgan'; //Note logger = morgan~!
+import {createChargeRouter} from './routes/new';
 
 const app = express();
+app.use(morgan('dev')); //log every request to the CONSOLE.
+
 app.use(cors({ credentials: true }));
 // traffic is being proximate to our application through ingress engine express
 app.set('trust proxy', true); //  the X-Forwarded-* header fields may be trusted
@@ -20,13 +23,15 @@ app.use(
 	})
 );
 
-app.use(logger('dev')); //log every request to the CONSOLE.
+
 
 app.get('/api/users/test', async (req, res) => {
 	res.status(200).json({message: 'Hi, there!', url: `${req.url}`});
 });
 
 app.use(currentUser);
+
+app.use(createChargeRouter);
 
 
 
