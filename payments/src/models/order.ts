@@ -65,7 +65,6 @@ orderSchema.statics.findByEvent = (event: {id: string; version: number}) => {
 
 // -2  Define function then create mode
 orderSchema.statics.build = (attrs: OrderAttrs) => {
-  console.log(attrs);
 	return new Order({
     _id: attrs.id,
     status: attrs.status,
