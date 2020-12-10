@@ -1,0 +1,43 @@
+import {OrderStatus} from '@davidgarden/common';
+import mongoose from 'mongoose';
+import request from 'supertest';
+import {app} from '../../app';
+import {Order} from '../../models/order';
+import {stripe} from '../../stripe';
+
+// jest.mock('../../stripe');  // not the real stripe
+
+const url = '/api/payments';
+const userId = mongoose.Types.ObjectId().toHexString();
+const token= 'tok_mastercard';
+const price = 1.99;
+const cookie = global.signup(userId);
+const orderBuild = () => {
+	return Order.build({
+		id: mongoose.Types.ObjectId().toHexString(),
+		status: OrderStatus.Created,
+		version: 0,
+		userId,
+		price,
+	});
+};
+
+
+it('returns a 201 with valid inputs', async () => {
+	const order = await orderBuild().save();
+	const response = await request(app).post(url).set('Cookie', cookie).send({
+		orderId: order.id,
+		token,
+	});
+  expect(response.status).toEqual(201);
+
+  const stripeCharges = await stripe.charges.list({limit: 50});
+  const stripeCharge = stripeCharges.data.find(charge => {
+    return charge.amount === order.price * 100;
+  });
+
+  console.log(stripeCharge);
+
+  expect(stripeCharge).toBeDefined();
+
+});

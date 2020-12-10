@@ -9,7 +9,7 @@ jest.mock('../../stripe');  // not the real stripe
 
 const url = '/api/payments';
 const userId = mongoose.Types.ObjectId().toHexString();
-const token= 'tok_mastercard';
+const token= 'tok_fake';
 const price = 1.99;
 const cookie = global.signup(userId);
 const orderBuild = () => {
