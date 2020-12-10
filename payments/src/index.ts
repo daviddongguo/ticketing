@@ -1,8 +1,8 @@
 import 'express-async-errors';
 import mongoose from 'mongoose';
-import {OrderCreatedListener} from './../../tickets/src/events/listeners/order-created-listener';
 import {app} from './app';
 import {OrderCancelledListener} from './events/listeners/order-cancelled-listener';
+import {OrderCreatedListener} from './events/listeners/order-created-listener';
 import {natsWrapper} from './nats-wrapper';
 const mongoDbString = require('../configs/mongoDb');
 
@@ -69,8 +69,8 @@ const start = async () => {
 		console.error(error);
 	}
 
-	app.listen(3019, () => {
-		console.log('Tickets server is listening on port 3019...');
+	app.listen(3022, () => {
+		console.log('Tickets server is listening on port 3022...');
 	});
 };
 

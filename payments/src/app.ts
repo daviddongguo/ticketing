@@ -4,11 +4,10 @@ import cookieSession from 'cookie-session';
 import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
-import morgan from 'morgan'; //Note logger = morgan~!
 import {createChargeRouter} from './routes/new';
 
 const app = express();
-app.use(morgan('dev')); //log every request to the CONSOLE.
+// app.use(morgan('dev')); //log every request to the CONSOLE.
 
 app.use(cors({ credentials: true }));
 // traffic is being proximate to our application through ingress engine express
