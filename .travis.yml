@@ -11,7 +11,7 @@ script:
   - cd ./tickets && yarn install && yarn test
   - cd ..
   - cd ./orders && yarn install && yarn test
-  - cd ..
-#  - cd ./expiration && yarn install && yarn test
   #- cd ..
+#  - cd ./expiration && yarn install && yarn test
+  - cd ..
   - cd ./payments && yarn install && yarn test
