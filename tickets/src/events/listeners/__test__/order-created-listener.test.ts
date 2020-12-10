@@ -1,4 +1,4 @@
-import {OrderCreatedEvent, OrderStatus} from '@davidgarden/common';
+import {NotFoundError, OrderCreatedEvent, OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import {Message} from 'node-nats-streaming';
 import {Ticket} from '../../../models/ticket';
@@ -75,3 +75,17 @@ it('publishes a ticket updated event', async () => {
   expect(natsWrapper.client.publish).toHaveBeenCalled();
   expect(data.id).toEqual(ticketUpdatedData.orderId);
 });
+
+it('returns a 404 when ticke does not exist.', async () => {
+  const {listener, data, msg} = await setup();
+  data.ticket.id = mongoose.Types.ObjectId().toHexString();
+  // call the onMessage function with the data object + message objec
+  try {
+    await listener.onMessage(data, msg);
+  } catch (error) {
+    expect(error).toBeDefined();
+    expect(error).toBeInstanceOf(NotFoundError);
+  }
+  // write assertions to make sure ack function is not called.
+  expect(msg.ack).not.toBeCalled();
+})

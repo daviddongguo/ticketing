@@ -21,7 +21,8 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 		});
 		if (!dbTicket) {
 			throw new NotFoundError(`Ticket(id=${data.ticket.id})`);
-		}
+    }
+    //TODO: can not find the ticket that order cancelled
 
 		// Mark the ticket as being reserved by setting its orderId property
 		// Save the ticket
