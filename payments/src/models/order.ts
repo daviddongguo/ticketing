@@ -1,11 +1,10 @@
 import {OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
-import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 
 interface OrderAttrs {
   id: string;
   status: OrderStatus;
-  version: number;
+  version?: number;
   userId: string;
   price: number;
 }
@@ -36,8 +35,7 @@ const orderSchema = new mongoose.Schema(
     price: {
 			type: Number,
 			required: true,
-		},
-
+    },
 	},
 	{
 		toJSON: {
@@ -49,7 +47,6 @@ const orderSchema = new mongoose.Schema(
 	}
 );
 orderSchema.set('versionKey', 'version');
-orderSchema.plugin(updateIfCurrentPlugin);
 
 // orderSchema.pre('save', function(done){
 //   // @ts-ignore
@@ -68,13 +65,13 @@ orderSchema.statics.findByEvent = (event: {id: string; version: number}) => {
 
 // -2  Define function then create mode
 orderSchema.statics.build = (attrs: OrderAttrs) => {
+  console.log(attrs);
 	return new Order({
     _id: attrs.id,
     status: attrs.status,
-    version: attrs.version,
+    version: attrs.version || 0,
     userId: attrs.userId,
     price: attrs.price,
-
   });
 };
 
