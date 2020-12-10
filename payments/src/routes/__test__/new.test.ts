@@ -35,7 +35,7 @@ it('returns success', async () => {
   expect(chargeOptions.amount).toEqual(price * 100);
   expect(chargeOptions.currency).toEqual('cad');
 });
-it('returns a 204 with valid inputs', async () => {
+it('returns a 201 with valid inputs', async () => {
 	const order = await orderBuild().save();
 	const response = await request(app).post(url).set('Cookie', cookie).send({
 		orderId: order.id,
