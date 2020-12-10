@@ -1,7 +1,6 @@
-import {OrderStatus} from '@davidgarden/common';
+import {NotFoundError, OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
 import {Order, OrderDoc} from '../order';
-import {NotFoundError} from './../../../../common/src/errors/not-found-error';
 
 const orderBuild = (version?: number) => {
 	return Order.build({
