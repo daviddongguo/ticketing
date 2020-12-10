@@ -10,7 +10,7 @@ const setup = async () => {
     id: mongoose.Types.ObjectId().toHexString(),
     status: OrderStatus.Created,
     //TODO: set version is not 0
-    version: 0,
+    // version: 0,
 		userId: 'mongoose.Types.ObjectId().toHexString()',
 		price: 9.99,
   });
@@ -69,3 +69,4 @@ it('does not ack the message', async () => {
 	// write assertions to make sure ack function is called.
 	expect(msg.ack).not.toBeCalled();
 });
+

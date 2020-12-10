@@ -1,5 +1,6 @@
 import {
-  DatabaseConnectionError, Listener,
+  DatabaseConnectionError,
+  Listener,
   NotFoundError,
   OrderCancelledEvent, OrderStatus, Subjects
 } from '@davidgarden/common';
@@ -14,10 +15,7 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 
 	async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
 		// Find the order and update it
-		const dbOrder = await Order.findOne({
-      _id: data.id,
-      version: data.version - 1,
-    });
+		const dbOrder = await Order.findByEvent(data);
 		if (!dbOrder) {
 			throw new NotFoundError(`Order(_id=${data.id})`);
     }
@@ -26,12 +24,10 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
       dbOrder.set({status: OrderStatus.Cancelled});
       await dbOrder.save();
       console.log('save dbOrder \n', dbOrder);
-
     } catch (error) {
+      // throw error;
       throw new DatabaseConnectionError("Ooops!");
     }
-
-
 
 		msg.ack();
 	}
