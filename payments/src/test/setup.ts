@@ -7,8 +7,8 @@ import mongoose from 'mongoose';
 declare global {
 	namespace NodeJS {
 		interface Global {
-			signup(id: string, email: string): string[];
-			signin(id: string, email: string): string[];
+			signup(id?: string): string[];
+			signin(id?: string): string[];
 		}
 	}
 }
@@ -54,9 +54,9 @@ afterAll(async () => {
 
 });
 
-global.signup = (id: string, email: string, password?: string) => {
+global.signup = (id?: string) => {
   // Build a JWT payload. {id, email}
-  const payload = {id, email};
+  const payload = {id: id || mongoose.Types.ObjectId().toHexString()};
 
   // Create the JWT
   const accessToken  = jwt.sign(payload, process.env.JWT_KEY!);
@@ -74,7 +74,7 @@ global.signup = (id: string, email: string, password?: string) => {
   return [`session=${base64};`];
 };
 
-global.signin = (id: string, email: string, password?: string) => {
+global.signin = (id?: string) => {
   // session=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJalZtWXpKaU9HVm1Zemt5WWpZM05HVmxPRE14WWpOa015SXNJbVZ0WVdsc0lqb2lkR1Z6ZEVCbGJXRnBiQzVqYjIwaUxDSnBZWFFpT2pFMk1EWTFPVFk0TkRkOS5YU0FMTWw3YTNKc185ZFpBX2t2U25hX2F0TnFZb0hnRmg2cHdBcmo1c3ZjIn0=; path=/; expires=Sun, 29 Nov 2020 20:54:07 GMT; httponly
-	return global.signup(id, email);
+	return global.signup(id);
 };
