@@ -20,7 +20,7 @@ router.post(
       throw new NotAuthorizedError();
     }
 
-    if(dbOrder.status !== OrderStatus.Cancelled){
+    if(dbOrder.status === OrderStatus.Cancelled){
       throw new BadRequestError('Can NOT pay for an cancelled order.', 'order.status');
     }
 

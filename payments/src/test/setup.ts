@@ -17,7 +17,7 @@ jest.mock('../nats-wrapper');
 
 let mongo: any;
 beforeAll(async () => {
-  process.env.JWT_KEY = 'a-temp-key-for-test';
+  process.env.JWT_KEY = 'a-default-value';
 
 	mongo = new MongoMemoryServer();
 	const mongoUri = await mongo.getUri();
@@ -55,11 +55,11 @@ afterAll(async () => {
 });
 
 global.signup = (id?: string) => {
-  // Build a JWT payload. {id, email}
+  // Build a JWT payload. {id}
   const payload = {id: id || mongoose.Types.ObjectId().toHexString()};
 
   // Create the JWT
-  const accessToken  = jwt.sign(payload, process.env.JWT_KEY!);
+  const accessToken  = jwt.sign(payload, process.env.JWT_KEY || 'a-default-value');
 
   // Build success Object. {jwt: MY_JWT}
   const session = {jwt: accessToken };
