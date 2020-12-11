@@ -1,5 +1,23 @@
 import {Ticket} from '../ticket';
 
+it('toJSON', async()=>{
+  const ticket = Ticket.build({
+		title: 'a title',
+		price: 2.99,
+    userId: 'auseridlikethis',
+    orderId: 'order-id',
+  });
+  await ticket.save();
+  const json = JSON.stringify(ticket);
+  console.log(json);
+  //  {"title":"a title","price":2.99,"userId":"auseridlikethis","orderId":"order-id","version":0,"id":"5fd405e0c810034680265aaa","orderUrl":"/api/orders/order-id"}
+	expect(json).not.toContain('_id');
+	expect(json).not.toContain('__v');
+	expect(json).toContain('"id"');
+	expect(json).toContain('version');
+	expect(json).toContain('orderUrl');
+});
+
 it('implements optimistic concurrency control', async (done) => {
 	// Create an instance of a ticket
 	const title = 'a title for event';

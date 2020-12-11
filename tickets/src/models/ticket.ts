@@ -4,7 +4,8 @@ import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 interface TicketAttrs {
 	title: string;
 	price: number;
-	userId: string;
+  userId: string;
+  orderId?: string;
 }
 
 interface TicketDoc extends mongoose.Document {
@@ -12,6 +13,7 @@ interface TicketDoc extends mongoose.Document {
 	price: number;
   userId: string;
   orderId?: string;
+  orderUrl?: string;
   version: number;
 }
 
@@ -35,12 +37,16 @@ const ticketSchema = new mongoose.Schema(
 		},
 		orderId: {
 			type: String,
+    },
+    orderUrl: {
+      type: String,
 		},
 	},
 	{
 		toJSON: {
 			transform(doc, ret) {
-				ret.id = ret._id;
+        ret.id = ret._id;
+        ret.orderUrl = `/api/orders/${ret.orderId}`;
 				delete ret._id;
 			},
 		},

@@ -12,8 +12,9 @@ const orderBuild = (version?: number) => {
 	});
 };
 
-it('toJSON', () => {
-	const json = JSON.stringify(orderBuild());
+it('toJSON', async () => {
+	const order = await orderBuild().save();
+	const json = JSON.stringify(order);
 	expect(json).not.toContain('_id');
 	expect(json).not.toContain('__v');
 	expect(json).toContain('"id"');
