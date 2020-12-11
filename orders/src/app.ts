@@ -1,16 +1,16 @@
 import {currentUser, errorHandler, NotFoundError} from '@davidgarden/common';
 import {json} from 'body-parser';
 import cookieSession from 'cookie-session';
-import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
+import {indexOfOrdersRouter} from './routers';
 import {deleteOrdersRouter} from './routers/delete';
-import {indexOfOrdersRouter} from './routers/index';
 import {createOrderRouter} from './routers/new';
 import {showOrdersRouter} from './routers/show';
 
 const app = express();
-app.use(cors);
+// app.use(morgan('combined'));
+// app.use(cors({ credentials: true }));
 // traffic is being proximate to our application through ingress engine express
 app.set('trust proxy', true); //  the X-Forwarded-* header fields may be trusted
 app.use(json());
