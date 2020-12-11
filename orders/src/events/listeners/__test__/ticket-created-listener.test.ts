@@ -4,7 +4,6 @@ import {Message} from 'node-nats-streaming';
 import {Ticket} from '../../../models/ticket';
 import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {TicketCreatedListener} from '../ticket-created-listener';
-
 const id = mongoose.Types.ObjectId().toHexString();
 const title = 'a fake title for testing';
 

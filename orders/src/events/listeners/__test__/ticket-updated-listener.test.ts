@@ -6,13 +6,15 @@ import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {TicketUpdatedListener} from '../ticket-updated-listener';
 
 const title = 'a fake title for testing';
+const version = Math.floor(Math.random() * 100);
 
 const setup = async () => {
 	// create and save a ticket
 	const ticket = Ticket.build({
 		id: mongoose.Types.ObjectId().toHexString(),
 		title,
-		price: 1.99,
+    price: 1.99,
+    version,
 	});
 	await ticket.save();
   // create an instance of the listener
@@ -21,7 +23,7 @@ const setup = async () => {
 	// create a fake data event
 	const data: TicketUpdatedEvent['data'] = {
 		id: ticket.id,
-		version: 1,
+		version: version + 1,
 		title,
 		price: 1.11,
 		userId: mongoose.Types.ObjectId().toHexString(),
@@ -61,7 +63,7 @@ it('acks the message', async () => {
 
 it('does not call ack if the event has a skipped version', async () => {
 	const {listener, data, msg} = await setup();
-	data.version = 123;
+	data.version = version + 321;
 	try {
 		await listener.onMessage(data, msg);
 	} catch (error) {

@@ -11,7 +11,7 @@ declare global {
 		interface Global {
 			signup(id: string, email: string): Promise<string[]>;
 			signin(id: string, email: string): Promise<string[]>;
-			createTicket(title?: string, price?: number): Promise<TicketDoc>;
+			createTicket(id?: string, title?: string, version?:number, price?: number): Promise<TicketDoc>;
 			createOrder(ticket: TicketDoc, userId: string): Promise<OrderDoc>;
 			cookie: string[];
 			secondCookie: string[];
@@ -94,9 +94,11 @@ global.signin = async (id: string, email: string, password?: string) => {
 	return await global.signup(id, email);
 };
 
-global.createTicket = async (title?: string, price?: number) => {
+global.createTicket = async (id?: string, title?: string, version?: number, price?: number) => {
 	const ticket = Ticket.build({
-		title: title || 'an event created for testing.',
+    id: id || mongoose.Types.ObjectId().toHexString(),
+    title: title || 'an event created for testing.',
+    version: version || 0,
 		price: price || 0.99,
 	});
 	await ticket.save();

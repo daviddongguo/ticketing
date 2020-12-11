@@ -7,11 +7,13 @@ import {EXPIRATION_WINDOW_SECONDS} from '../../../routers/new';
 import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 
 
+const version = Math.floor(Math.random() * 100);
 const setup = async () => {
   const ticket =  Ticket.build({
     id: mongoose.Types.ObjectId().toHexString(),
     title: 'a test event',
-    price: 1.991
+    price: 1.99,
+    version,
   });
   await ticket.save();
   if(!ticket){

@@ -13,7 +13,8 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 		const ticket = Ticket.build({
 			id,
 			title,
-			price,
+      price,
+      version,
 		});
     await ticket.save();
 
