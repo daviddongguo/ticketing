@@ -42,6 +42,13 @@ const start = async () => {
 	}
 
 	try {
+		await mongoose.connect(mongoDbConnectionString, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true,
+		});
+    console.log('Connected to MongoDb by ' + `${mongoDbConnectionString}`);
+
     // NATS begin
 		await natsWrapper.connect(
 			clusterId,
@@ -65,12 +72,6 @@ const start = async () => {
     new PaymentCreatedListener(natsWrapper.client).listen();
     // NATS end
 
-		await mongoose.connect(mongoDbConnectionString, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
-		});
-		console.log('Connected to MongoDb by ' + `${mongoDbConnectionString}`);
 	} catch (error) {
 		console.error(error);
 	}

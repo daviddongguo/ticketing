@@ -8,43 +8,47 @@ const mongoDbString = require('../configs/mongoDb');
 
 const start = async () => {
 	let mongoDbConnectionString = mongoDbString.googleDb || '';
-  let clusterId = process.env.NATS_CLUSTER_ID || '';
-  let clientId = process.env.NATS_CLIENT_ID || '';
-  let natsUrl = process.env.NATS_URL || '';
+	let clusterId = process.env.NATS_CLUSTER_ID || '';
+	let clientId = process.env.NATS_CLIENT_ID || '';
+	let natsUrl = process.env.NATS_URL || '';
 
 	if (process.env.NODE_ENV === 'local') {
 		mongoDbConnectionString = mongoDbString.localDb;
-    clusterId = 'ticketing';
-    clientId = 'local-tickets-client';
+		clusterId = 'ticketing';
+		clientId = 'local-tickets-client';
 		natsUrl = 'http://35.196.98.224:4222';
-    process.env.JWT_KEY = 'local-jwt-key';
+		process.env.JWT_KEY = 'local-jwt-key';
 	} else {
 		if (mongoDbConnectionString === '') {
 			throw new Error('MONGO_URI must be defined.');
-    }
+		}
 
 		if (clusterId === '') {
 			throw new Error('CLUSTER_ID must be defined.');
-    }
+		}
 
-    if (clientId === '') {
+		if (clientId === '') {
 			throw new Error('NATS_URL must be defined.');
-    }
-    if (natsUrl === '') {
+		}
+		if (natsUrl === '') {
 			throw new Error('CLIENT_ID must be defined.');
-    }
+		}
 
-    if (process.env.JWT_KEY === '') {
+		if (process.env.JWT_KEY === '') {
 			throw new Error('JWT_KEY must be defined.');
-    }
+		}
 	}
 
 	try {
-		await natsWrapper.connect(
-			clusterId,
-			clientId,
-			natsUrl
-		);
+		await mongoose.connect(mongoDbConnectionString, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true,
+		});
+    console.log('Connected to MongoDb by ' + `${mongoDbConnectionString}`);
+
+
+		await natsWrapper.connect(clusterId, clientId, natsUrl);
 		natsWrapper.client.on('close', () => {
 			console.log('NATS connection close');
 			process.exit();
@@ -54,19 +58,12 @@ const start = async () => {
 		});
 		process.on('SIGTERM', () => {
 			natsWrapper.client.close();
-    });
-    new OrderCreatedListener(natsWrapper.client).listen();
-    new OrderCancelledListener(natsWrapper.client).listen();
-
-		await mongoose.connect(mongoDbConnectionString, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
 		});
-		console.log('Connected to MongoDb by ' + `${mongoDbConnectionString}`);
+		new OrderCreatedListener(natsWrapper.client).listen();
+		new OrderCancelledListener(natsWrapper.client).listen();
 	} catch (error) {
-    // console.error(error);
-    throw error;
+		// console.error(error);
+		throw error;
 	}
 
 	app.listen(3019, () => {
