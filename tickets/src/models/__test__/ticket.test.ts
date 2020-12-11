@@ -27,7 +27,7 @@ it('implements optimistic concurrency control', async (done) => {
 	try {
 		await secondInstance!.save();
 	} catch (error) {
-    console.log(error.Message);
+    console.error(error.Message);
     return done();
   }
 

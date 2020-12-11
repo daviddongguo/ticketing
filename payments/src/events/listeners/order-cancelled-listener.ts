@@ -23,7 +23,6 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
     try {
       dbOrder.set({status: OrderStatus.Cancelled});
       await dbOrder.save();
-      console.log('save dbOrder \n', dbOrder);
     } catch (error) {
       // throw error;
       throw new DatabaseConnectionError("Ooops!");

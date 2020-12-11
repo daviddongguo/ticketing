@@ -14,7 +14,6 @@ const orderBuild = (version?: number) => {
 
 it('renames _id to noramal id', () => {
 	const json = JSON.stringify(orderBuild());
-	console.log(json);
 	expect(json).not.toContain('_id');
 	expect(json).toContain('"id"');
 });

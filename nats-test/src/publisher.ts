@@ -23,7 +23,7 @@ stan.on('connect', async() => {
       price: ++basePrice,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
 });

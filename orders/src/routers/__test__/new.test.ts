@@ -70,7 +70,6 @@ it('creates a order with valid inputs', async () => {
 		.send({ticketId})
 		.expect(201);
 	orders = await Order.find({});
-	console.log(orders[0]);
 	expect(orders.length).toEqual(1);
 	expect(orders[0].userId).toEqual(global.userId);
 	expect(orders[0].ticket.toString()).toEqual(ticketId);

@@ -19,7 +19,6 @@ beforeEach(async () => {
 		.set('Cookie', global.cookie)
 		.send({title: oldTitle, price: oldPrice});
 	ticketId = response.body.id;
-	console.log(ticketId);
 });
 
 it('has a right route handler listening to but the user is not authenticated', async () => {

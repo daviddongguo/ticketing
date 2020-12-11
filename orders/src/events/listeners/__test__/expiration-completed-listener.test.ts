@@ -15,7 +15,6 @@ const setup = async () => {
     price: 1.991
   });
   await ticket.save();
-  console.log('ticker created.');
 
   const expiration = new Date();
   expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
@@ -54,16 +53,14 @@ it('updates the order status to cancelled and emit an OrderCancelled event' , as
   }
   expect(dbOrder.status).not.toEqual(OrderStatus.Cancelled);
   expect(dbOrder.ticket).toBeDefined();
-  console.log(dbOrder.status);
 
 	// call the onMessage function with the data object + message objec
 	await listener.onMessage(data, msg);
 	// write assertions to make sure a ticket was created.
 	const updatedOrder = await Order.findById(data.orderId);
 	if (!updatedOrder) {
-    console.log('-------can not find order!!!!')
+    fail();
 	}
-  console.log(updatedOrder!.status);
 	expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
   // expect(updatedOrder?.ticket).not.toBeDefined();         // updated/
   expect(msg.ack).toBeCalled();               // acks the message
@@ -83,14 +80,12 @@ it('do nothing if the order is complete' , async () => {
   }
   dbOrder.set({status: OrderStatus.Complete});
   await dbOrder.save();
-  console.log(dbOrder.status);
 
 	// call the onMessage function with the data object + message objec
 	await listener.onMessage(data, msg);
 	// write assertions to make sure a ticket was created.
 	const updatedOrder = await Order.findById(data.orderId);
 	if (!updatedOrder) {
-    console.log('-------can not find order!!!!');
     fail();
 	}
 	expect(updatedOrder!.status).not.toEqual(OrderStatus.Cancelled);

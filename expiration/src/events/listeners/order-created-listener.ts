@@ -9,11 +9,11 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
 	async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
     const delay = new Date(data.expiresAt).getTime() - new Date().getTime();
-    console.log(`Waiting ${delay} milliseconds`);
     await expirationQueue.add(
 			{orderId: data.id},
 			{
-				delay: delay - 880000,
+        //FIXME: retain 15 minutes
+				delay: delay - 800000,
 			}
 		);
 
