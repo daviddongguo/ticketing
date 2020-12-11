@@ -4,8 +4,8 @@ import request from 'supertest';
 import {app} from '../../app';
 import {Order} from '../../models/order';
 import {Payment} from '../../models/payment';
+import {natsWrapper} from '../../nats-wrapper';
 import {stripe} from '../../stripe';
-import {natsWrapper} from './../../../../orders/src/__mocks__/nats-wrapper';
 import {STRIPE_ID} from './../../__mocks__/stripe';
 
 jest.mock('../../stripe');  // not the real stripe
