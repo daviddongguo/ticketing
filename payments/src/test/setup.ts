@@ -1,6 +1,6 @@
 import 'express-async-errors';
 import jwt from 'jsonwebtoken';
-import {MongoMemoryServer} from 'mongodb-memory-server-global';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
 

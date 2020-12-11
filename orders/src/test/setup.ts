@@ -1,7 +1,7 @@
 import {OrderStatus} from '@davidgarden/common';
 import 'express-async-errors';
 import jwt from 'jsonwebtoken';
-import {MongoMemoryServer} from 'mongodb-memory-server-global';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {Order, OrderDoc} from '../models/order';
 import {Ticket, TicketDoc} from '../models/ticket';
