@@ -17,7 +17,7 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 		// Find the order and update it
 		const dbOrder = await Order.findByEvent(data);
 		if (!dbOrder) {
-			throw new NotFoundError(`Order(_id=${data.id})`);
+			throw new NotFoundError(`Order(_id=${data.id}, version=${data.version})`);
     }
 
     try {

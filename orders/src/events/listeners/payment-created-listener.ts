@@ -17,7 +17,7 @@ export class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
 		// update the order locally
 		const dbOrder = await Order.findById(data.orderId).populate('ticket');
 		if (!dbOrder) {
-			throw new NotFoundError(`Order(id=${data.orderId})`);
+			throw new NotFoundError(`Order(id=${data.orderId}) in ${queueGroupName}`);
     }
 
 		dbOrder.set({status: OrderStatus.Complete});

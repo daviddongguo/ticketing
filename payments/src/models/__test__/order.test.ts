@@ -73,7 +73,7 @@ const orderUpdate = async (order: OrderDoc, version?: number) => {
 		version: version || order.version + 1,
 	});
 	if (!dbOrder) {
-		throw new NotFoundError('order not found.');
+		throw new NotFoundError(`Order(id=${order.id}, version=${version})`);
 	}
 	dbOrder.set({
 		version: version || order.version + 1,
