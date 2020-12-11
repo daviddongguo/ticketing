@@ -28,6 +28,7 @@ const paymentSchema = new mongoose.Schema({
     transform(doc, ret){
       ret.id = ret._id;
       delete ret._id;
+      delete ret.__v;
     }
   }
 });
@@ -38,5 +39,5 @@ paymentSchema.statics.build = (attrs: PaymentAttrs) => {
 
 const Payment = mongoose.model<PaymentDoc, PaymentModel>('Payment', paymentSchema);
 
-export {Payment};
+export {Payment, PaymentDoc};
 
