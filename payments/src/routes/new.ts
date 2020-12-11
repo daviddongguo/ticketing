@@ -2,6 +2,7 @@ import {BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus, require
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
 import {Order} from '../models/order';
+import {Payment} from '../models/payment';
 import {stripe} from '../stripe';
 
 const router = express.Router();
@@ -33,9 +34,13 @@ router.post(
       description: 'Test Charge (created for API docs)',
     });
 
-    return res.status(201).send({success: true, charge});
+    const payment = Payment.build({
+      orderId: dbOrder.id,
+      stripeId: charge.id,
+    })
+    await payment.save();
 
-
+    return res.status(201).send({success: true});
 	}
 );
 

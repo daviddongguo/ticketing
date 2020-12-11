@@ -3,7 +3,9 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import {app} from '../../app';
 import {Order} from '../../models/order';
+import {Payment} from '../../models/payment';
 import {stripe} from '../../stripe';
+import {STRIPE_ID} from './../../__mocks__/stripe';
 
 jest.mock('../../stripe');  // not the real stripe
 
@@ -22,7 +24,7 @@ const orderBuild = () => {
 	});
 };
 
-it('returns success', async () => {
+it('finishes a payment and save it into database', async () => {
 	const order = await orderBuild().save();
 	const response = await request(app).post(url).set('Cookie', cookie).send({
 		orderId: order.id,
@@ -34,14 +36,12 @@ it('returns success', async () => {
   expect(chargeOptions.source).toEqual(token);
   expect(chargeOptions.amount).toEqual(price * 100);
   expect(chargeOptions.currency).toEqual('cad');
-});
-it('returns a 201 with valid inputs', async () => {
-	const order = await orderBuild().save();
-	const response = await request(app).post(url).set('Cookie', cookie).send({
-		orderId: order.id,
-		token,
-	});
-	expect(response.status).toEqual(201);
+
+  const payment = await Payment.findOne({orderId: order.id});
+  if(!payment){
+    fail();
+  }
+  expect(payment.stripeId).toEqual(STRIPE_ID);
 });
 
 it('returns a 404 when purchasing an order that does not exits', async () => {
