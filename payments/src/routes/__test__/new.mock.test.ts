@@ -5,9 +5,11 @@ import {app} from '../../app';
 import {Order} from '../../models/order';
 import {Payment} from '../../models/payment';
 import {stripe} from '../../stripe';
+import {natsWrapper} from './../../../../orders/src/__mocks__/nats-wrapper';
 import {STRIPE_ID} from './../../__mocks__/stripe';
 
 jest.mock('../../stripe');  // not the real stripe
+jest.mock('../../nats-wrapper')
 
 const url = '/api/payments';
 const userId = mongoose.Types.ObjectId().toHexString();
@@ -42,6 +44,9 @@ it('finishes a payment and save it into database', async () => {
     fail();
   }
   expect(payment.stripeId).toEqual(STRIPE_ID);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+
 });
 
 it('returns a 404 when purchasing an order that does not exits', async () => {
