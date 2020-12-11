@@ -16,7 +16,8 @@ it('toJSON', () => {
 	const json = JSON.stringify(orderBuild());
 	expect(json).not.toContain('_id');
 	expect(json).not.toContain('__v');
-  expect(json).toContain('"id"');
+	expect(json).toContain('"id"');
+	expect(json).toContain('version');
 });
 
 it('can not increase version automatically', async () => {
@@ -27,14 +28,13 @@ it('can not increase version automatically', async () => {
 	expect(order.version).toEqual(version);
 });
 
-it('throw DocumentNotFoundError', async () => {
-	const version = 123;
-	const order = orderBuild(version);
-	try {
-		await order.save();
-	} catch (error) {
-		expect(error).toBeDefined();
-	}
+it('returns null if event version is 0', async () => {
+	const version = 0;
+	const order = Order.findByEvent({
+		id: mongoose.Types.ObjectId().toHexString(),
+		version,
+  });
+  expect(order).toBeNull();
 });
 
 it('intial vesion', async () => {
@@ -47,38 +47,38 @@ it('intial vesion', async () => {
 
 it('updates an order successfully', async () => {
 	const order = await orderBuild().save();
-  expect(order.version).toEqual(0);
-  let updatedOrder = await orderUpdate(order);
+	expect(order.version).toEqual(0);
+	let updatedOrder = await orderUpdate(order);
 	expect(updatedOrder.id).toEqual(order.id);
-  expect(updatedOrder.version).toEqual(order.version + 1);
+	expect(updatedOrder.version).toEqual(order.version + 1);
 
-  updatedOrder = await orderUpdate(updatedOrder);
+	updatedOrder = await orderUpdate(updatedOrder);
 	expect(updatedOrder.id).toEqual(order.id);
 	expect(updatedOrder.version).toEqual(order.version + 2);
 });
 
 it('fail to update an order with wrong version', async () => {
 	const order = await orderBuild().save();
-  expect(order.version).toEqual(0);
-  try {
-    await orderUpdate(order, 123);
-  } catch (error) {
-    expect(error).toBeDefined();
-  }
+	expect(order.version).toEqual(0);
+	try {
+		await orderUpdate(order, 123);
+	} catch (error) {
+		expect(error).toBeDefined();
+	}
 });
 
 const orderUpdate = async (order: OrderDoc, version?: number) => {
 	const dbOrder = await Order.findByEvent({
 		id: order.id,
 		version: version || order.version + 1,
-  });
-  if (!dbOrder) {
-		throw new NotFoundError("order not found.");;
+	});
+	if (!dbOrder) {
+		throw new NotFoundError('order not found.');
 	}
 	dbOrder.set({
 		version: version || order.version + 1,
 	});
-  await dbOrder.save();
+	await dbOrder.save();
 
-  return dbOrder;
+	return dbOrder;
 };

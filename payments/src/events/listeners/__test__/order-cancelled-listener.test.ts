@@ -6,21 +6,21 @@ import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 import {OrderCancelledListener} from '../order-cancelled-listener';
 
 const setup = async () => {
+	const version = Math.floor(Math.random() * 101);
 	const order = Order.build({
-    id: mongoose.Types.ObjectId().toHexString(),
-    status: OrderStatus.Created,
-    //TODO: set version is not 0
-    version: 100,
+		id: mongoose.Types.ObjectId().toHexString(),
+		status: OrderStatus.Created,
+		version,
 		userId: 'mongoose.Types.ObjectId().toHexString()',
 		price: 9.99,
-  });
-  await order.save();
+	});
+	await order.save();
 
-  // @ts-ignore
+	// @ts-ignore
 	const listener = new OrderCancelledListener(natsWrapper.client);
 	const data: OrderCancelledEvent['data'] = {
 		id: order.id,
-		version: 101,
+		version: version + 1,
 		ticket: {
 			id: 'mongoose.Types.ObjectId().toHexString()',
 		},
@@ -35,26 +35,25 @@ const setup = async () => {
 };
 
 it('updates the status of the order, and acks the message', async () => {
-  const {listener, data, msg} = await setup();
-  const dbOrder = await Order.findById(data.id);
-  expect(dbOrder?.status).not.toEqual(OrderStatus.Cancelled);
-  console.log(dbOrder);
+	const {listener, data, msg} = await setup();
+	const dbOrder = await Order.findById(data.id);
+	expect(dbOrder?.status).not.toEqual(OrderStatus.Cancelled);
 	// call the onMessage function with the data object + message objec
 	await listener.onMessage(data, msg);
 	// write assertions to make sure a ticket was created.
 	const updatedOrder = await Order.findById(data.id);
 	if (!updatedOrder) {
-    fail();
+		fail();
 	}
 	expect(updatedOrder.id).toEqual(data.id);
 	expect(updatedOrder.status).toEqual(OrderStatus.Cancelled); // updated the orderId
-  expect(msg.ack).toBeCalled();               // acks the message
-                                              // publishes an event
-  // expect(natsWrapper.client.publish).toHaveBeenCalled();
-  // console.log('-----------natsWrapper.client.publish.mock.calls------------');
-  // console.log(natsWrapper.client.publish.mock.calls);
-  // const ticketUpdatedData = JSON.parse(natsWrapper.client.publish.mock.calls[0][1]);
-  // expect(ticketUpdatedData.orderId).toEqual(undefined);
+	expect(msg.ack).toBeCalled(); // acks the message
+	// publishes an event
+	// expect(natsWrapper.client.publish).toHaveBeenCalled();
+	// console.log('-----------natsWrapper.client.publish.mock.calls------------');
+	// console.log(natsWrapper.client.publish.mock.calls);
+	// const ticketUpdatedData = JSON.parse(natsWrapper.client.publish.mock.calls[0][1]);
+	// expect(ticketUpdatedData.orderId).toEqual(undefined);
 });
 
 it('does not ack the message', async () => {
@@ -69,4 +68,3 @@ it('does not ack the message', async () => {
 	// write assertions to make sure ack function is called.
 	expect(msg.ack).not.toBeCalled();
 });
-

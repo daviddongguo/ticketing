@@ -103,7 +103,7 @@ namespace restSharpTests
             {
                 Signin(_client, "test@email.com", "test");
                 var request = new RestRequest("/api/tickets", Method.POST);
-                request.AddJsonBody(new { title = "the title of an event", price = 1.999 });
+                request.AddJsonBody(new { title = "the title of an event", price = 1.99 });
                 var response = _client.ExecuteAsync(request).GetAwaiter().GetResult();
 
                 System.Console.WriteLine(response.ResponseUri);
