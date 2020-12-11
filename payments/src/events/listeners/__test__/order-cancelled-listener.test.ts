@@ -10,7 +10,7 @@ const setup = async () => {
     id: mongoose.Types.ObjectId().toHexString(),
     status: OrderStatus.Created,
     //TODO: set version is not 0
-    // version: 0,
+    version: 100,
 		userId: 'mongoose.Types.ObjectId().toHexString()',
 		price: 9.99,
   });
@@ -20,7 +20,7 @@ const setup = async () => {
 	const listener = new OrderCancelledListener(natsWrapper.client);
 	const data: OrderCancelledEvent['data'] = {
 		id: order.id,
-		version: 1,
+		version: 101,
 		ticket: {
 			id: 'mongoose.Types.ObjectId().toHexString()',
 		},

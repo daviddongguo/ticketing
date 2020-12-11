@@ -2,51 +2,56 @@ import {OrderStatus} from '@davidgarden/common';
 import mongoose from 'mongoose';
 
 interface OrderAttrs {
-  id: string;
-  status: OrderStatus;
-  version?: number;
-  userId: string;
-  price: number;
+	id: string;
+	status: OrderStatus;
+	version: number;
+	userId: string;
+	price: number;
 }
 
 interface OrderDoc extends mongoose.Document {
-  status: OrderStatus;
-  version: number;
-  userId: string;
-  price: number;
+	status: OrderStatus;
+	version: number;
+	userId: string;
+	price: number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
-  build(attrs: OrderAttrs): OrderDoc;
+	build(attrs: OrderAttrs): OrderDoc;
 	findByEvent(event: {id: string; version: number}): Promise<OrderDoc | null>;
 }
 
 const orderSchema = new mongoose.Schema(
 	{
 		status: {
-      type: String,
-      required: true,
-      enum: Object.values(OrderStatus),
-    },
-    userId: {
+			type: String,
+			required: true,
+			enum: Object.values(OrderStatus),
+		},
+		userId: {
 			type: String,
 			required: true,
 		},
-    price: {
+		price: {
 			type: Number,
 			required: true,
-    },
+		},
+		version: {
+			type: Number,
+			required: true,
+		},
 	},
 	{
 		toJSON: {
 			transform(doc, ret) {
 				ret.id = ret._id;
-				delete ret._id;
+        delete ret._id;
+        delete ret.__v;
 			},
 		},
 	}
 );
-orderSchema.set('versionKey', 'version');
+// orderSchema.set('versionKey', 'version');
 
 // orderSchema.pre('save', function(done){
 //   // @ts-ignore
@@ -57,6 +62,9 @@ orderSchema.set('versionKey', 'version');
 // });
 
 orderSchema.statics.findByEvent = (event: {id: string; version: number}) => {
+  if(event.version <= 0){
+    return null;
+  }
 	return Order.findOne({
 		_id: event.id,
 		version: event.version - 1,
@@ -66,12 +74,12 @@ orderSchema.statics.findByEvent = (event: {id: string; version: number}) => {
 // -2  Define function then create mode
 orderSchema.statics.build = (attrs: OrderAttrs) => {
 	return new Order({
-    _id: attrs.id,
-    status: attrs.status,
-    version: attrs.version || 0,
-    userId: attrs.userId,
-    price: attrs.price,
-  });
+		_id: attrs.id,
+		status: attrs.status,
+		version: attrs.version,
+		userId: attrs.userId,
+		price: attrs.price,
+	});
 };
 
 // -1  Create the actual model

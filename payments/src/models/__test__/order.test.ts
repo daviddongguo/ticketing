@@ -6,16 +6,17 @@ const orderBuild = (version?: number) => {
 	return Order.build({
 		id: mongoose.Types.ObjectId().toHexString(),
 		status: OrderStatus.Created,
-		version,
+		version: version || 0,
 		userId: mongoose.Types.ObjectId().toHexString(),
 		price: 1.99,
 	});
 };
 
-it('renames _id to noramal id', () => {
+it('toJSON', () => {
 	const json = JSON.stringify(orderBuild());
 	expect(json).not.toContain('_id');
-	expect(json).toContain('"id"');
+	expect(json).not.toContain('__v');
+  expect(json).toContain('"id"');
 });
 
 it('can not increase version automatically', async () => {
@@ -36,12 +37,12 @@ it('throw DocumentNotFoundError', async () => {
 	}
 });
 
-it('intial vesion is disabled', async () => {
+it('intial vesion', async () => {
 	const version = 123;
 	const order = orderBuild(version);
 	await order.save();
-	expect(order.version).not.toEqual(version);
-	expect(order.version).toEqual(0);
+	expect(order.version).toEqual(version);
+	expect(order.version).not.toEqual(0);
 });
 
 it('updates an order successfully', async () => {
