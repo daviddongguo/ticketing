@@ -44,13 +44,13 @@ router.post(
     await payment.save();
 
     // Publish a payment created event
-    new PaymentCreatedPublisher(natsWrapper.client).publish({
+    await new PaymentCreatedPublisher(natsWrapper.client).publish({
       id: payment.id,
       orderId: payment.orderId,
       stripeId: payment.stripeId,
     });
 
-    return res.status(201).send({success: true});
+    return res.status(201).send({id: payment.id});
 	}
 );
 

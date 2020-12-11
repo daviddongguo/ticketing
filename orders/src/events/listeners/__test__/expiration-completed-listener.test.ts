@@ -26,8 +26,9 @@ const setup = async () => {
     expiresAt: expiration,
   })
   await order.save();
-  console.log('order created');
-  console.log(order);
+  if(!order){
+    throw new Error("error as saving order.");
+  }
 
   // create an instance of the listener
   // @ts-ignore

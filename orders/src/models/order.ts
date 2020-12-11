@@ -11,6 +11,7 @@ interface OrderAttrs {
 }
 
 interface OrderDoc extends mongoose.Document {
+  id: string,
 	userId: string;
   ticket: TicketDoc;
   status: OrderStatus;
@@ -49,7 +50,6 @@ const orderSchema = new mongoose.Schema(
 			transform(doc, ret) {
 				ret.id = ret._id;
 				delete ret._id;
-				delete ret.__v;
 			},
 		},
 	}
