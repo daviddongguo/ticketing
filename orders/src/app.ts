@@ -11,7 +11,7 @@ import {createOrderRouter} from './routers/new';
 import {showOrdersRouter} from './routers/show';
 
 const app = express();
-app.use(cors({ credentials: true }));
+app.use(cors);
 // traffic is being proximate to our application through ingress engine express
 app.set('trust proxy', true); //  the X-Forwarded-* header fields may be trusted
 app.use(json());
