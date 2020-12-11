@@ -4,8 +4,8 @@ import cookieSession from 'cookie-session';
 import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
-import {indexOfOrdersRouter} from './routers';
 import {deleteOrdersRouter} from './routers/delete';
+import {indexOfOrdersRouter} from './routers/index';
 import {createOrderRouter} from './routers/new';
 import {showOrdersRouter} from './routers/show';
 
@@ -35,7 +35,6 @@ app.use(createOrderRouter);
 app.use(indexOfOrdersRouter);
 app.use(showOrdersRouter);
 app.use(deleteOrdersRouter);
-deleteOrdersRouter
 
 app.all('*', async (req, res) => {
 	throw new NotFoundError(`${req.url}`);
