@@ -55,7 +55,7 @@ it('updates th ticket, publishes an event, and acks the message', async () => {
   expect(ticketUpdatedData.orderId).toEqual(undefined);
 });
 
-it('does not ack the message', async () => {
+it('does ack the message, ', async () => {
 	const {listener, data, msg} = await setup();
 	data.version = 123;
 	// call the onMessage function with the data object + message objec
@@ -65,5 +65,5 @@ it('does not ack the message', async () => {
 		expect(error).toBeDefined();
 	}
 	// write assertions to make sure ack function is called.
-	expect(msg.ack).not.toBeCalled();
+	expect(msg.ack).toBeCalled();
 });

@@ -15,10 +15,7 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 
 	async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
 		// Find the ticket that the order is reserving.
-		const dbTicket = await Ticket.findOne({
-			_id: data.ticket.id,
-			version: data.version -1,
-		});
+		const dbTicket = await Ticket.findById(data.ticket.id);
 		if (!dbTicket) {
 			throw new NotFoundError(`Ticket(id=${data.ticket.id})`);
     }
