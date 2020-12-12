@@ -46,7 +46,7 @@ const ticketSchema = new mongoose.Schema(
 		toJSON: {
 			transform(doc, ret) {
         ret.id = ret._id;
-        ret.orderUrl = `/api/orders/${ret.orderId}`;
+        ret.orderUrl = `/orders/${ret.orderId}`;
 				delete ret._id;
 			},
 		},
