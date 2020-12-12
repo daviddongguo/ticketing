@@ -15,7 +15,7 @@ import {OrderCreatedPublisher} from './../events/publishers/order-created-publis
 import {natsWrapper} from './../nats-wrapper';
 const router = express.Router();
 
-export const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+export const EXPIRATION_WINDOW_SECONDS = 3 * 60;
 
 router.post(
 	'/api/orders',

@@ -12,8 +12,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     await expirationQueue.add(
 			{orderId: data.id},
 			{
-        //FIXME: retain 15 minutes
-				delay: delay - 800000,
+				delay,
 			}
 		);
 
