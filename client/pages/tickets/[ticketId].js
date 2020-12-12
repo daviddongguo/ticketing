@@ -1,7 +1,14 @@
 import Router from 'next/router';
+import {useEffect, useState} from 'react';
 import useRequest from '../../hooks/use-request';
 
 const TicketShow = ({ticket}) => {
+	const {isReserved, SetIsReserved} = useState(false);
+	useEffect(() => {
+		if (ticket.orderId) {
+			SetIsReserved(true);
+		}
+	});
 	const {doRequest, errorsComponent} = useRequest({
 		url: '/api/orders',
 		method: 'post',
@@ -23,7 +30,12 @@ const TicketShow = ({ticket}) => {
 			<h4>version: {ticket.version}</h4>
 			<h4>order id:{ticket.orderId}</h4>
 			{errorsComponent}
-			<button onClick={onClick} className='btn btn-primary'>
+			//TODO: disable the button when the ticket is reserved.
+			<button
+				disabled={this.state.isReserved}
+				onClick={onClick}
+				className='btn btn-primary'
+			>
 				Purchase
 			</button>
 		</div>

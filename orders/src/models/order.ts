@@ -8,6 +8,7 @@ interface OrderAttrs {
   ticket: TicketDoc;
   status: OrderStatus;
   expiresAt: Date;
+  paymentId?: string;
 }
 
 interface OrderDoc extends mongoose.Document {
@@ -17,6 +18,7 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
   expiresAt: Date;
   version: number;
+  paymentId?: string;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -43,7 +45,10 @@ const orderSchema = new mongoose.Schema(
 		expiresAt: {
 			type: mongoose.Schema.Types.Date,
 			required: true,
-		},
+    },
+    paymentId:{
+      type: String,
+    },
 	},
 	{
 		toJSON: {
