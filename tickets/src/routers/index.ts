@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get('/api/tickets', async (req: Request, res: Response) => {
 	try {
-		const tickets = await Ticket.find({});
+		const tickets = await Ticket.find({
+      orderId: undefined,
+    });
 		return res.status(200).send({tickets});
 	} catch (error) {
 		throw new DatabaseConnectionError('Broke! as querying ticket');

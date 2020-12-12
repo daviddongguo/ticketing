@@ -11,7 +11,6 @@ const LandingPage = ({currentUser, tickets}) => {
 						<a>View</a>
 					</Link>
 				</td>
-				<td>{ticket.orderId || ''}</td>
 			</tr>
 		);
 	});
@@ -25,7 +24,6 @@ const LandingPage = ({currentUser, tickets}) => {
 						<th>Title</th>
 						<th>Price</th>
 						<th>Link</th>
-						<th>Order</th>
 					</tr>
 				</thead>
 				<tbody>{ticketList}</tbody>
