@@ -17,11 +17,11 @@ const TicketShow = ({ticket}) => {
 
 	return (
 		<div>
-			<h3>{ticket.title}</h3>
-			<h4>{ticket.price}</h4>
-			<h4>{ticket.version}</h4>
-			<h4>{ticket.orderId}</h4>
-			<h4>{ticket.id}</h4>
+			<h3>title: {ticket.title}</h3>
+			<h4>price: {ticket.price}</h4>
+			<h4>id: {ticket.id}</h4>
+			<h4>version: {ticket.version}</h4>
+			<h4>order id:{ticket.orderId}</h4>
 			{errorsComponent}
 			<button onClick={onClick} className='btn btn-primary'>
 				Purchase

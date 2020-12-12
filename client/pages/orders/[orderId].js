@@ -28,8 +28,13 @@ const OrderShow = ({order, currentUser}) => {
 		};
 	}, []);
 
-	if (timeLeft <= 0) {
-		return <div>Order Expired!</div>;
+	if (timeLeft <= 0 || order.status === 'complete') {
+		return (
+			<div>
+				<h4>status: {order.status}</h4>
+				<h4>version: {order.version}</h4>
+			</div>
+		);
 	}
 
 	return (
