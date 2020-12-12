@@ -1,11 +1,11 @@
 {
 	"name": "Acer 103",
-	"host": "192.168.1.103",
+	"host": "localhost",
 	"protocol": "sftp",
-	"port": 22,
-	"username": "david",
-	"password": "david",
-	"remotePath": "/home/david/Documents/ticketing",
+	"port": 8122,
+	"username": "root",
+	"password": "root",
+	"remotePath": "/root/ticketing",
 	"uploadOnSave": true,
 	"watcher": {
 		"files": "*.*",

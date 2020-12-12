@@ -353,3 +353,4 @@ tickets/coverage/
 auth/coverage/
 dist/
 coverage/
+.vscode/sftp.json.stop
