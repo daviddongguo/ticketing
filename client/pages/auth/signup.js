@@ -3,8 +3,8 @@ import {useState} from 'react';
 import useRequest from '../../hooks/use-request';
 
 const signup = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('test@email.com');
+	const [password, setPassword] = useState('test');
 	const {doRequest, errorsComponent} = useRequest({
 		url: '/api/users/signup',
 		method: 'post',
