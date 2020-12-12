@@ -11,6 +11,7 @@ const LandingPage = ({currentUser, tickets}) => {
 						<a>View</a>
 					</Link>
 				</td>
+				<td>{ticket.orderId || ''}</td>
 			</tr>
 		);
 	});
@@ -24,6 +25,7 @@ const LandingPage = ({currentUser, tickets}) => {
 						<th>Title</th>
 						<th>Price</th>
 						<th>Link</th>
+						<th>Order</th>
 					</tr>
 				</thead>
 				<tbody>{ticketList}</tbody>
@@ -33,9 +35,12 @@ const LandingPage = ({currentUser, tickets}) => {
 };
 
 LandingPage.getInitialProps = async (context, client, currentUser) => {
-	const {data} = await client.get('/api/tickets');
-
-	return {tickets: data.tickets};
+	try {
+		const {data} = await client.get('/api/tickets');
+		return {tickets: data.tickets};
+	} catch (error) {
+		return {tickets: []};
+	}
 };
 
 export default LandingPage;
