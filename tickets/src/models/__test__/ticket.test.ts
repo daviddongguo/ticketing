@@ -9,7 +9,7 @@ it('toJSON', async()=>{
   });
   await ticket.save();
   const json = JSON.stringify(ticket);
-  console.log(json);
+  // console.log(json);
   //  {"title":"a title","price":2.99,"userId":"auseridlikethis","orderId":"order-id","version":0,"id":"5fd405e0c810034680265aaa","orderUrl":"/api/orders/order-id"}
 	expect(json).not.toContain('_id');
 	expect(json).not.toContain('__v');
