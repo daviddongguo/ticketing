@@ -6,7 +6,6 @@ import {Ticket} from '../../../models/ticket';
 import {EXPIRATION_WINDOW_SECONDS} from '../../../routers/new';
 import {natsWrapper} from '../../../__mocks__/nats-wrapper';
 
-
 const version = Math.floor(Math.random() * 100);
 const setup = async () => {
   const ticket =  Ticket.build({
@@ -69,8 +68,8 @@ it('updates the order status to complete and emit an OrderUpdated event' , async
   expect(msg.ack).toBeCalled();               // acks the message
                                               // publishes an event
   expect(natsWrapper.client.publish).toHaveBeenCalled();
-  console.log('-----------natsWrapper.client.publish.mock.calls------------');
-  console.log(natsWrapper.client.publish.mock.calls);
+  // console.log('-----------natsWrapper.client.publish.mock.calls------------');
+  // console.log(natsWrapper.client.publish.mock.calls);
   const eventData = JSON.parse(natsWrapper.client.publish.mock.calls[0][1]);
   expect(eventData.id).toEqual(dbOrder.id);
 });

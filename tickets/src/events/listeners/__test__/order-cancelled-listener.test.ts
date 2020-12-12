@@ -49,8 +49,8 @@ it('updates th ticket, publishes an event, and acks the message', async () => {
   expect(msg.ack).toBeCalled();               // acks the message
                                               // publishes an event
   expect(natsWrapper.client.publish).toHaveBeenCalled();
-  console.log('-----------natsWrapper.client.publish.mock.calls------------');
-  console.log(natsWrapper.client.publish.mock.calls);
+  // console.log('-----------natsWrapper.client.publish.mock.calls------------');
+  // console.log(natsWrapper.client.publish.mock.calls);
   const ticketUpdatedData = JSON.parse(natsWrapper.client.publish.mock.calls[0][1]);
   expect(ticketUpdatedData.orderId).toEqual(undefined);
 });

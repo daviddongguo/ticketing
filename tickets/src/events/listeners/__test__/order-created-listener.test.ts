@@ -67,8 +67,8 @@ it('publishes a ticket updated event', async () => {
   // call the onMessage function with the data object + message objec
   await listener.onMessage(data, msg);
   // write assertions to make sure ack function is called.
-  console.log('-----------natsWrapper.client.publish.mock.calls------------');
-  console.log(natsWrapper.client.publish.mock.calls);
+  // console.log('-----------natsWrapper.client.publish.mock.calls------------');
+  // console.log(natsWrapper.client.publish.mock.calls);
 
   const ticketUpdatedData = JSON.parse(natsWrapper.client.publish.mock.calls[0][1]);
 
