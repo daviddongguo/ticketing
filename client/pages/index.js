@@ -28,7 +28,6 @@ const LandingPage = ({currentUser, tickets}) => {
 				</thead>
 				<tbody>{ticketList}</tbody>
 			</table>
-			<h6>Welcome, {new Date()}</h6>
 		</div>
 	);
 };
