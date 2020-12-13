@@ -1,6 +1,28 @@
 import Link from 'next/link';
 
 const OrderIndex = ({currentUser, orders}) => {
+	const PurchaseOrPay = (order) => {
+		if (order.status === 'cancelled') {
+			return (
+				<Link href='/tickets/[ticketId]' as={`/tickets/${order.ticket.id}`}>
+					<a>Purchase</a>
+				</Link>
+			);
+		}
+		if (order.status === 'created') {
+			return (
+				<Link href='/orders/[orderId]' as={`/orders/${order.id}`}>
+					<a>Pay</a>
+				</Link>
+			);
+		}
+		return (
+			<Link href='/orders/[orderId]' as={`/orders/${order.id}`}>
+				<a>View</a>
+			</Link>
+		);
+	};
+
 	const ordersList = orders.map((order) => {
 		return (
 			<tr key={order.id}>
@@ -12,11 +34,7 @@ const OrderIndex = ({currentUser, orders}) => {
 					</Link>
 				</td>
 				<td>{order.ticket.price}</td>
-				<td>
-					<Link href='/orders/[orderId]' as={`/orders/${order.id}`}>
-						<a>View</a>
-					</Link>
-				</td>
+				<td>{PurchaseOrPay(order)}</td>
 			</tr>
 		);
 	});
@@ -31,7 +49,7 @@ const OrderIndex = ({currentUser, orders}) => {
 						<th>Version</th>
 						<th>Title</th>
 						<th>Price</th>
-						<th>Link</th>
+						<th>Pay / Purchase</th>
 					</tr>
 				</thead>
 				<tbody>{ordersList}</tbody>

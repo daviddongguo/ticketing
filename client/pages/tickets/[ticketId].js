@@ -1,10 +1,7 @@
 import Router from 'next/router';
-import {useState} from 'react';
 import useRequest from '../../hooks/use-request';
 
 const TicketShow = ({ticket}) => {
-	const {isReserved, SetIsReserved} = useState(!!ticket.orderId);
-
 	const {doRequest, errorsComponent} = useRequest({
 		url: '/api/orders',
 		method: 'post',
@@ -27,7 +24,7 @@ const TicketShow = ({ticket}) => {
 			<h4>order id:{ticket.orderId}</h4>
 			{errorsComponent}
 			<button
-				disabled={isReserved}
+				disabled={!!ticket.orderId}
 				onClick={onClick}
 				className='btn btn-primary'
 			>
