@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: tickets
-          image: gcr.io/fit-reference-296121/tickets
-          #image: davidmontreal/tickets
+          # image: gcr.io/fit-reference-296121/tickets
+          image: davidmontreal/tickets
           #imagePullPolicy: Always
           env:
             - name: NATS_CLIENT_ID

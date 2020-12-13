@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: client
-          image: gcr.io/fit-reference-296121/ticketingclient
-          #image: davidmontreal/ticketingclient
+          # image: gcr.io/fit-reference-296121/ticketingclient
+          image: davidmontreal/ticketingclient
           #imagePullPolicy: Always
 
 ---

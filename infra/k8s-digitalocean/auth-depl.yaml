@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: auth
-          image: gcr.io/fit-reference-296121/auth
-          #image: davidmontreal/auth
+          #image: gcr.io/fit-reference-296121/auth
+          image: davidmontreal/auth
           #imagePullPolicy: Always
           env:
             - name: MONGO_URI

@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: expiration
-          image: gcr.io/fit-reference-296121/expiration
-          #image: davidmontreal/expiration
+          # image: gcr.io/fit-reference-296121/expiration
+          image: davidmontreal/expiration
           #imagePullPolicy: Always
           env:
             - name: NATS_CLIENT_ID

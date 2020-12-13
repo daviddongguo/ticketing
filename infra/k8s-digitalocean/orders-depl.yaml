@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: orders
-          image: gcr.io/fit-reference-296121/orders
-          #image: davidmontreal/orders
+          # image: gcr.io/fit-reference-296121/orders
+          image: davidmontreal/orders
           #imagePullPolicy: Always
           env:
             - name: NATS_CLIENT_ID
