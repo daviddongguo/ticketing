@@ -44,7 +44,7 @@ router.post(
 		// we just found *and* the order's status is *not* cancelled.
 		// If we find and order from that means the ticket *is* reserved.
 		if (await dbTicket.isReserved()) {
-			throw new BadRequestError('Ticket(id=${ticketId} is already reserved.');
+			throw new BadRequestError(`Ticket(id=${ticketId} is already reserved.`);
 		}
 
 		// Calculate an expiration date for this order.
