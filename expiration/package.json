@@ -5,9 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "ts-node-dev src/index.ts",
-		"start:local": "cross-env NODE_ENV=local ts-node-dev src/index.ts",
-		"test": "cross-env NODE_ENV=test jest --watchAll=false --no-cache --coverage --verbose=true --runInBand",
-		"test:local": "cross-env NODE_ENV=localtest jest --watchAll --no-cache --coverage --verbose=true --runInBand"
+		"start:local": "cross-env NODE_ENV=local ts-node-dev src/index.ts"
 	},
 	"jest": {
 		"preset": "ts-jest",
