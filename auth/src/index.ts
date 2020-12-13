@@ -40,7 +40,7 @@ const start = async () => {
 	}
 
 	app.listen(3018, () => {
-		console.log('Auth is listening on port 3018...');
+		console.log('Auth qlistening on port 3018...');
 	});
 };
 
