@@ -32,7 +32,7 @@ const TicketShow = ({ticket}) => {
 			{errorsComponent}
 			//TODO: disable the button when the ticket is reserved.
 			<button
-				disabled={this.state.isReserved}
+				disabled={isReserved}
 				onClick={onClick}
 				className='btn btn-primary'
 			>
