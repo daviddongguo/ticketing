@@ -4,22 +4,21 @@ import {app} from './app';
 import {OrderCancelledListener} from './events/listeners/order-cancelled-listener';
 import {OrderCreatedListener} from './events/listeners/order-created-listener';
 import {natsWrapper} from './nats-wrapper';
-const mongoDbString = require('../configs/mongoDb');
 
 const start = async () => {
-	let mongoDbConnectionString = mongoDbString.googleDb || '';
+	let mongoStr = process.env.MONGO_URI || '';
   let clusterId = process.env.NATS_CLUSTER_ID || '';
   let clientId = process.env.NATS_CLIENT_ID || '';
   let natsUrl = process.env.NATS_URL || '';
 
 	if (process.env.NODE_ENV === 'local') {
-		mongoDbConnectionString = mongoDbString.localDb;
+		mongoStr = 'mongodb://127.0.0.1/payments';
     clusterId = 'ticketing';
     clientId = 'local-tickets-client';
 		natsUrl = 'http://35.196.98.224:4222';
     process.env.JWT_KEY = 'local-jwt-key';
 	} else {
-		if (mongoDbConnectionString === '') {
+		if (mongoStr === '') {
 			throw new Error('MONGO_URI must be defined.');
     }
 
@@ -40,12 +39,12 @@ const start = async () => {
 	}
 
 	try {
-		await mongoose.connect(mongoDbConnectionString, {
+		await mongoose.connect(mongoStr, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true,
 		});
-    console.log('Connected to MongoDb by ' + `${mongoDbConnectionString}`);
+    console.log('Connected to MongoDb by ' + `${mongoStr}`);
 
 		await natsWrapper.connect(
 			clusterId,
@@ -71,7 +70,7 @@ const start = async () => {
 	}
 
 	app.listen(3022, () => {
-		console.log('Tickets server is listening on port 3022...');
+		console.log('Payments listening on port 3022...');
 	});
 };
 
