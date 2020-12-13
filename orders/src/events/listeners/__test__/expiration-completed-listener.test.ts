@@ -67,7 +67,7 @@ it('updates the order status to cancelled and emit an OrderCancelled event' , as
   expect(msg.ack).toBeCalled();               // acks the message
                                               // publishes an event
   expect(natsWrapper.client.publish).toHaveBeenCalled();
-  // console.log('-----------natsWrapper.client.publish.mock.calls------------');
+  // console.log('---------natsWrapper.client.publish.mock.calls------------');
   // console.log(natsWrapper.client.publish.mock.calls);
   const eventData = JSON.parse(natsWrapper.client.publish.mock.calls[0][1]);
   expect(eventData.id).toEqual(dbOrder.id);
