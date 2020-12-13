@@ -30,7 +30,6 @@ const TicketShow = ({ticket}) => {
 			<h4>version: {ticket.version}</h4>
 			<h4>order id:{ticket.orderId}</h4>
 			{errorsComponent}
-			//TODO: disable the button when the ticket is reserved.
 			<button
 				disabled={isReserved}
 				onClick={onClick}

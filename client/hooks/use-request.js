@@ -17,7 +17,7 @@ const useRequest = ({url, method, body, onSuccess}) => {
 			return response.data;
 		} catch (error) {
 			let list = [];
-			if (error.response) {
+			if (error.response.data.errors) {
 				error.response.data.errors.map((err) => {
 					list.push(err.message);
 				});
