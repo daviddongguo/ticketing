@@ -10,7 +10,7 @@ const buildClient = (context) => {
 			baseURL:
 				process.env.serverBaseUrl !== ''
 					? process.env.serverBaseUrl
-					: 'www.david-wu.xyz',
+					: 'http://www.david-wu.xyz',
 			// : 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
 			headers: context.req.headers,
 		});
