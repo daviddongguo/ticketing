@@ -1,14 +1,10 @@
 import Router from 'next/router';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import useRequest from '../../hooks/use-request';
 
 const TicketShow = ({ticket}) => {
-	const {isReserved, SetIsReserved} = useState(false);
-	useEffect(() => {
-		if (ticket.orderId) {
-			SetIsReserved(true);
-		}
-	});
+	const {isReserved, SetIsReserved} = useState(!!ticket.orderId);
+
 	const {doRequest, errorsComponent} = useRequest({
 		url: '/api/orders',
 		method: 'post',
