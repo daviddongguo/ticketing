@@ -13,7 +13,7 @@ router.post(
 	[
 		body('title')
 			.trim()
-			.isLength({min: 5, max: 200})
+			.isLength({min: 5, max: 500})
 			.withMessage('Title is required.'),
 		body('price')
 			.isFloat({gt: 0.0})
