@@ -29,7 +29,9 @@ Ticket prices can be edited if they are not locked.
   - Job Queue: Bull
   - Payments: Stripe
 - Front-end: React.js, Next.js
+- Code share: NPM
 - Database: MongoDB
 - Tests: Jest, RestSharp(.net)
 - CI/CD: Github Action, Travis
 - Cloud: Digital Ocean Kubernetes Clusters
+- Local Kubernetes Tool: Skaffold
