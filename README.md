@@ -2,8 +2,6 @@
 
 Sale and purchase tickets
 
-## Live on [http://www.david-wu.xyz](http://www.david-wu.xyz)
-
 ## Main function
 
 Users can list a ticket for an event(concert, sports) for sale
